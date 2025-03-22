@@ -156,7 +156,6 @@ const getServiceProviderDetails = async (req, res) => {
     }
 
     const serviceProvider = await ServiceProvider.findById(id);
-    console.log(serviceProvider);
 
     if (!serviceProvider) {
       return res.status(404).json({ message: "Service provider not found" });
