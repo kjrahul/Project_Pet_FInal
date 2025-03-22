@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import { FaBuilding, FaEnvelope, FaHandsHelping, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
 
 const ServicesPage = () => {
   const location = useLocation();
@@ -24,8 +25,22 @@ const ServicesPage = () => {
     address: "",
     timeSlot: "",
   });
+  const [serviceProvider, setServiceProvider] = useState(null);
+
 
   useEffect(() => {
+    const fetchServiceProviderDetails = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/services/service-provider/${id}`
+        );
+        setServiceProvider(response.data);
+        console.log(response.data);
+
+      } catch (error) {
+        console.error("Failed to fetch service provider details:", error);
+      }
+    };
     const fetchServices = async () => {
       if (id) {
         try {
@@ -40,16 +55,18 @@ const ServicesPage = () => {
     };
 
     fetchServices();
+    fetchServiceProviderDetails();
+
   }, [id]);
 
   const filteredServices = services
-  .filter((service) =>
-    (!serviceType || service.type === serviceType) &&
-    (!animalFilter || service.serviceName.toLowerCase().includes(animalFilter.toLowerCase()))
-  )
-  .sort((a, b) =>
-    sortOrder === "asc" ? a.price - b.price : b.price - a.price
-  );
+    .filter((service) =>
+      (!serviceType || service.type === serviceType) &&
+      (!animalFilter || service.serviceName.toLowerCase().includes(animalFilter.toLowerCase()))
+    )
+    .sort((a, b) =>
+      sortOrder === "asc" ? a.price - b.price : b.price - a.price
+    );
 
   const handleOpenModal = (service) => {
     setSelectedService(service);
@@ -108,11 +125,63 @@ const ServicesPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-200 p-6">
       <Navbar />
+      <div className="text-center mb-10">
+        <div className="flex justify-center items-center gap-3 mb-2">
+          <FaHandsHelping className="text-4xl text-orange-500" />
+          <h2 className="text-4xl font-extrabold text-gray-800">
+            Service Provider
+          </h2>
+        </div>
+        <div className="w-24 h-1 bg-gradient-to-r from-orange-400 to-orange-600 mx-auto mt-2 rounded-full" />
+      </div>
+      {/* Provider Info Card */}
+      <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-transform duration-300 border border-gray-200 w-full lg:w-1/2 mx-auto p-6 flex flex-col sm:flex-row gap-6 mb-8">
+
+        {/* ✅ Provider Details */}
+        <div className="flex-1 space-y-2">
+          <h3 className="text-xl font-semibold truncate mb-2 text-gray-800">
+            {serviceProvider?.orgName}
+          </h3>
+
+          <div className="flex items-center gap-2 text-gray-600 mb-1">
+            <FaMapMarkerAlt className="text-orange-400" />
+            <span>{serviceProvider?.orgLocation}</span>
+          </div>
+
+          <div className="flex items-center gap-2 text-gray-600 mb-1">
+            <FaBuilding className="text-blue-500" />
+            <span>{serviceProvider?.orgAddress || "Not Available"}</span>
+          </div>
+
+          <div className="flex items-center gap-2 text-gray-600 mb-1">
+            <FaEnvelope className="text-green-500" />
+            <span>{serviceProvider?.email}</span>
+          </div>
+
+          <div className="flex items-center gap-2 text-gray-600 mb-3">
+            <FaPhone className="text-red-400" />
+            <span>{serviceProvider?.phoneNumber}</span>
+          </div>
+        </div>
+
+        {/* ✅ Logo Section */}
+        <div className="flex-shrink-0">
+          {serviceProvider?.logo ? (
+            <img
+              src={`http://localhost:5000/${serviceProvider.logo}`}
+              alt={serviceProvider?.orgName}
+              className="w-24 h-24 object-cover rounded-full border border-gray-300"
+            />
+          ) : (
+            <span className="text-gray-400">No Logo Available</span>
+          )}
+        </div>
+      </div>
 
       {/* Filters Section */}
-      <div className="flex gap-4 mb-6">
+      <div className="flex justify-end gap-4 mb-6">
         <select
           onChange={(e) => setSortOrder(e.target.value)}
           value={sortOrder}
@@ -124,26 +193,30 @@ const ServicesPage = () => {
 
         <input
           type="text"
-          placeholder="Filter by Animal , Service , etc"
+          placeholder="Filter by Animal, Service, etc"
           value={animalFilter}
           onChange={(e) => setAnimalFilter(e.target.value)}
           className="p-2 border rounded-md"
         />
       </div>
 
-      {/* Services List */}
+      {/* Services Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {filteredServices.map((service) => (
-          <div key={service._id} className="bg-white p-4 rounded-lg shadow-md">
+          <div
+            key={service._id}
+            className="bg-white p-4 rounded-lg shadow-md"
+          >
             <img
               src={`http://localhost:5000/${service.image}`}
               alt="Service Logo"
               className="w-full h-40 object-cover mb-3"
-              onError={(e) => (e.target.style.display = "none")}
+              onError={(e) => (e.currentTarget.style.display = "none")}
             />
             <h3 className="text-lg font-semibold">{service.serviceName}</h3>
             <p className="text-sm text-gray-600">{service.description}</p>
             <p className="font-bold text-orange-500">₹{service.price}</p>
+
             <button
               className="mt-3 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition"
               onClick={() => handleOpenModal(service)}
@@ -219,6 +292,7 @@ const ServicesPage = () => {
         </div>
       )}
     </div>
+
   );
 };
 

@@ -37,7 +37,7 @@ const RegisterUser = () => {
       });
 
       // Redirect to login page after showing the alert
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       Swal.fire({
         icon: 'error',
@@ -115,7 +115,7 @@ const RegisterUser = () => {
         <p className="mt-6 text-gray-500 text-center">
           Already have an account?{" "}
           <span
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/")}
             className="text-orange-500 font-semibold cursor-pointer hover:underline"
           >
             Login

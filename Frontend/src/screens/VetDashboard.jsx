@@ -15,7 +15,7 @@ const VetDashboard = () => {
       fetchProfile();
     } else {
       alert("Please log in to access the dashboard.");
-      navigate("/login");
+      navigate("/");
     }
   }, [vetId, navigate]);
 
@@ -59,7 +59,7 @@ const VetDashboard = () => {
   // ✅ Handle Logout
   const handleLogout = () => {
     sessionStorage.removeItem("userId");
-    navigate("/login");
+    navigate("/");
   };
 
   // ✅ Filter out past accepted bookings and sort

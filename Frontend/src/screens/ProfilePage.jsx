@@ -14,7 +14,7 @@ const ProfilePage = () => {
   useEffect(() => {
     if (!userId) {
       alert("Please log in to access profile");
-      navigate("/login");
+      navigate("/");
       return;
     }
 

@@ -50,7 +50,7 @@ const SplashPage = () => {
         <p className="mt-6 text-gray-500">
           Already have an account?{" "}
           <span
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/")}
             className="text-orange-500 font-semibold cursor-pointer hover:underline"
           >
             Login

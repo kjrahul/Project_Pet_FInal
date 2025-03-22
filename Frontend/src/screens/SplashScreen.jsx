@@ -8,8 +8,8 @@ const SplashScreen = () => {
   useEffect(() => {
     // ✅ Automatically redirect after 5 seconds
     const timer = setTimeout(() => {
-      navigate("/login");
-    }, 500000);
+      navigate("/");
+    }, 4000);
 
     return () => clearTimeout(timer);
   }, [navigate]);
@@ -79,7 +79,7 @@ const SplashScreen = () => {
 
       {/* ✅ Skip Button */}
       <button
-        onClick={() => navigate("/login")}
+        onClick={() => navigate("/")}
         className="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition shadow-md"
       >
         Get Started

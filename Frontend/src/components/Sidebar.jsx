@@ -16,7 +16,7 @@ const Sidebar = ({ setActivePage }) => {
   const [open, setOpen] = useState(false);
   const handleLogout = () => {
     sessionStorage.clear(); // Remove all session data
-    navigate("/login"); // Redirect to login page
+    navigate("/"); // Redirect to login page
   };
 
   return (
