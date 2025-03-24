@@ -20,18 +20,21 @@ const AdminDashboard = () => {
       <Sidebar setActivePage={setActivePage} />
       
       {/* Main Content */}
-      <div className="flex-1 p-4 overflow-y-auto">
-      {activePage === "stats" && <AdminStats />}
+      <div className="flex-1 p-4 overflow-y-auto bg-gradient-to-br from-blue-50 to-blue-200 ml-64">
+        {activePage === "stats" && <AdminStats />}
         {activePage === "addProduct" && <AddProduct />}
         {activePage === "serviceProviders" && <ServiceProviders />}
         {activePage === "addPetAdoption" && <AddPetAdoption />}
         {activePage === "adop-request" && <AdoptionRequests />}
-        {activePage === "adop-view" && <AdoptionAdmin />}
-        {activePage === "admin-pro" && <AdminProducts />}
+        {activePage === "adop-view" && (
+          <AdoptionAdmin onClick={(newVal) => setActivePage(newVal)} />
+        )}
+        {activePage === "admin-pro" && (
+          <AdminProducts onAdd={() => setActivePage("addPetAdoption")} />
+        )}
         {activePage === "vetprovider" && <VetProviders />}
         {activePage === "orderlist" && <OrdersList />}
         {activePage === "userlist" && <UsersList />}
-
       </div>
     </div>
   );

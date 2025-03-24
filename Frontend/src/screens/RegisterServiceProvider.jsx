@@ -84,7 +84,7 @@ const RegisterServiceProvider = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-200">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         {/* Logo */}
         <img
