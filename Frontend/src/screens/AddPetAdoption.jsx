@@ -150,14 +150,14 @@ const AddPetAdoption = () => {
         </div>
 
         {/* Submit Button */}
-        <div className="md:col-span-2">
+        {/* <div className="md:col-span-2"> */}
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
+            className="md:col-span-2 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-medium transition"
           >
             Add Pet
           </button>
-        </div>
+        {/* </div> */}
       </form>
     </div>
 

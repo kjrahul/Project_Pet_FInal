@@ -34,25 +34,25 @@ const AdoptionAdmin = (props) => {
   return (
     <div className="p-5 bg-white rounded-xl shadow-md">
       <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
-  {/* Left: Heading */}
-  <h2 className="text-2xl font-bold">Adoption</h2>
+        {/* Left: Heading */}
+        <h2 className="text-2xl font-bold">Adoption</h2>
 
-  {/* Right: Buttons */}
-  <div className="flex gap-3">
-    <button
-      onClick={() => props.onClick('addPetAdoption')}
-      className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-    >
-      + Add Adoption
-    </button>
-    <button
-      onClick={() => props.onClick("adop-request")}
-      className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-    >
-      Requests
-    </button>
-  </div>
-</div>
+        {/* Right: Buttons */}
+        <div className="flex gap-3">
+          <button
+            onClick={() => props.onClick('addPetAdoption')}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            + Add Adoption
+          </button>
+          <button
+            onClick={() => props.onClick("adop-request")}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            Requests
+          </button>
+        </div>
+      </div>
 
       {adoptions.length === 0 ? (
         <p className="text-gray-500 text-center py-10">No adoptions available.</p>

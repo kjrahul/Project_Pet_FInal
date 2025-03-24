@@ -29,6 +29,18 @@ const ServicesPage = () => {
 
 
   useEffect(() => {
+    const fetchUser = async () => {
+      const userId = sessionStorage.getItem("userId");
+
+      const response = await axios.get(
+        `http://localhost:5000/api/users/${userId}`
+      );
+      setBookingDetails(bookingDetails => ({
+        ...bookingDetails,
+        address: response.data.address
+      }))
+    }
+    
     const fetchServiceProviderDetails = async () => {
       try {
         const response = await axios.get(
@@ -36,7 +48,7 @@ const ServicesPage = () => {
         );
         setServiceProvider(response.data);
         console.log(response.data);
-
+        
       } catch (error) {
         console.error("Failed to fetch service provider details:", error);
       }
@@ -53,6 +65,7 @@ const ServicesPage = () => {
         }
       }
     };
+    fetchUser();
 
     fetchServices();
     fetchServiceProviderDetails();

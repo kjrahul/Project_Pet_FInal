@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { MdEmail, MdLocationOn, MdPhone } from "react-icons/md";
+import { IoSchoolSharp } from "react-icons/io5";
 
 const VetDashboard = () => {
   const [bookings, setBookings] = useState([]);
@@ -83,54 +85,63 @@ const VetDashboard = () => {
     );
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-5xl mx-auto">
-        {/* ✅ Profile Section */}
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-50 text-gray-800 p-6">
+      <div className="max-w-6xl mx-auto space-y-6">
+
+        {/* ✅ Vet Profile Card */}
         {vetProfile && (
-          <div className="bg-white shadow-md rounded-lg p-6 mb-6 flex justify-between items-center">
-            <div className="flex items-center">
+          <div className="bg-white shadow-lg rounded-2xl p-6 flex justify-between items-center">
+            <div className="flex items-center gap-4">
               <img
                 src={`http://localhost:5000/${vetProfile.logo}`}
                 alt="Profile"
-                className="w-20 h-20 rounded-full mr-4"
+                className="w-24 h-24 rounded-full object-cover border-4 border-orange-500"
               />
-              <div>
-                <h2 className="text-xl font-bold text-gray-800">
-                  {vetProfile.name}
-                </h2>
-                <p className="text-gray-600">
-                  📧 {vetProfile.email} | 📍 {vetProfile.location}
-                </p>
-                <p className="text-gray-600">
-                  🎓 {vetProfile.qualification} | 📞 {vetProfile.phoneNumber}
-                </p>
+              <div className="text-gray-700 space-y-1">
+                <h2 className="text-2xl font-semibold text-gray-900">{vetProfile.name}</h2>
+
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <MdEmail className="text-orange-500" />
+                  <span>{vetProfile.email}</span>
+                  <span className="mx-2">|</span>
+                  <MdLocationOn className="text-red-500" />
+                  <span>{vetProfile.location}</span>
+                </div>
+
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <IoSchoolSharp className="text-blue-500" />
+                  <span>{vetProfile.qualification}</span>
+                  <span className="mx-2">|</span>
+                  <MdPhone className="text-orange-500" />
+                  <span>{vetProfile.phoneNumber}</span>
+                </div>
               </div>
+
             </div>
-            {/* ✅ Logout Button */}
             <button
               onClick={handleLogout}
-              className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
+              className="px-5 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition shadow"
             >
               Logout
             </button>
           </div>
         )}
 
-        {/* ✅ Search Bar */}
-        <div className="mb-4">
+        {/* ✅ Search Input */}
+        <div>
           <input
             type="text"
-            placeholder="Search by Owner Name"
+            placeholder=" Search by Owner Name"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-orange-500"
+            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-400 focus:outline-none"
           />
         </div>
 
         {/* ✅ Bookings Table */}
-        <div className="overflow-x-auto bg-white rounded-lg shadow-md">
-          <table className="min-w-full">
-            <thead className="bg-orange-500 text-white">
+        <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-orange-500 text-white text-sm">
               <tr>
                 <th className="p-3 text-left">S. No</th>
                 <th className="p-3 text-left">Pet Type</th>
@@ -143,9 +154,9 @@ const VetDashboard = () => {
                 <th className="p-3 text-left">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="text-sm divide-y divide-gray-100">
               {filteredBookings.map((booking, index) => (
-                <tr key={booking._id} className="border-b hover:bg-gray-50">
+                <tr key={booking._id} className="hover:bg-gray-50">
                   <td className="p-3">{index + 1}</td>
                   <td className="p-3">{booking.petType}</td>
                   <td className="p-3">{booking.ownerName}</td>
@@ -154,50 +165,48 @@ const VetDashboard = () => {
                   <td className="p-3">
                     {new Date(booking.timeOfBooking).toLocaleString()}
                   </td>
-                  {/* ✅ Vaccinated Column */}
+
+                  {/* Vaccinated Badge */}
                   <td className="p-3">
                     {booking.vaccinated ? (
-                      <span className="px-2 py-1 bg-green-100 text-green-800 rounded-md">
+                      <span className="inline-block px-2 py-1 rounded-full bg-green-100 text-green-700 text-xs font-medium">
                         Vaccinated
                       </span>
                     ) : (
-                      <span className="px-2 py-1 bg-red-100 text-red-800 rounded-md">
+                      <span className="inline-block px-2 py-1 rounded-full bg-red-100 text-red-700 text-xs font-medium">
                         Not Vaccinated
                       </span>
                     )}
                   </td>
+
+                  {/* Status Badge */}
                   <td className="p-3">
                     <span
-                      className={`px-2 py-1 rounded-md ${
-                        booking.status === "Approved"
-                          ? "bg-green-100 text-green-800"
-                          : booking.status === "Rejected"
+                      className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${booking.status === "Approved"
+                        ? "bg-green-100 text-green-800"
+                        : booking.status === "Rejected"
                           ? "bg-red-100 text-red-800"
                           : "bg-yellow-100 text-yellow-800"
-                      }`}
+                        }`}
                     >
                       {booking.status || "Pending"}
                     </span>
                   </td>
-                  <td className="p-3 flex gap-2">
-                    {/* ✅ Approve Button */}
+
+                  {/* Action Buttons */}
+                  <td className="p-3 space-x-2">
                     {booking.status !== "Approved" && (
                       <button
-                        onClick={() =>
-                          updateStatus(booking._id, "Approved")
-                        }
-                        className="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600"
+                        onClick={() => updateStatus(booking._id, "Approved")}
+                        className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-xs"
                       >
                         Approve
                       </button>
                     )}
-                    {/* ✅ Reject Button */}
                     {booking.status !== "Rejected" && (
                       <button
-                        onClick={() =>
-                          updateStatus(booking._id, "Rejected")
-                        }
-                        className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
+                        onClick={() => updateStatus(booking._id, "Rejected")}
+                        className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"
                       >
                         Reject
                       </button>
@@ -207,14 +216,15 @@ const VetDashboard = () => {
               ))}
             </tbody>
           </table>
+
+          {/* No Bookings Message */}
           {filteredBookings.length === 0 && (
-            <p className="text-center p-4 text-gray-500">
-              No bookings available.
-            </p>
+            <div className="p-4 text-center text-gray-500">No bookings available.</div>
           )}
         </div>
       </div>
     </div>
+
   );
 };
 

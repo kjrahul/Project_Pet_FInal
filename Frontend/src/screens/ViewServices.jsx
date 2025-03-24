@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const ViewServices = () => {
+const ViewServices = (props) => {
   const [services, setServices] = useState([]);
   const userId = sessionStorage.getItem("userId"); // ✅ Get userId from sessionStorage
 
@@ -56,33 +56,46 @@ const ViewServices = () => {
   };
 
   return (
-    <div className="p-5">
-      <h2 className="text-2xl font-bold mb-4">View Services</h2>
+    <div className="p-5 bg-white rounded-xl shadow-md">
+      <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
+        {/* Left: Heading */}
+        <h2 className="text-2xl font-bold">Services</h2>
+
+        {/* Right: Buttons */}
+        <div className="flex gap-3">
+          <button
+            onClick={() => props.onClick()}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            + Add Service
+          </button>
+        </div>
+      </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white shadow-md rounded-lg">
+        <table className="min-w-full border-collapse text-sm">
           <thead>
-            <tr className="bg-gray-100">
-              <th className="py-2 px-4 border-b">Service Name</th>
-              <th className="py-2 px-4 border-b">Description</th>
-              <th className="py-2 px-4 border-b">Price</th>
-              <th className="py-2 px-4 border-b">Image</th>
-              <th className="py-2 px-4 border-b">Actions</th>
+            <tr className="bg-blue-50 text-gray-700">
+              <th className="border p-3">Service Name</th>
+              <th className="border p-3">Description</th>
+              <th className="border p-3">Price</th>
+              <th className="border p-3">Image</th>
+              <th className="border p-3">Actions</th>
             </tr>
           </thead>
           <tbody>
             {services.map((service) => (
-              <tr key={service._id} className="hover:bg-gray-50">
-                <td className="py-2 px-4 border-b">{service.serviceName}</td>
-                <td className="py-2 px-4 border-b">{service.description}</td>
-                <td className="py-2 px-4 border-b">₹{service.price}</td>
-                <td className="py-2 px-4 border-b">
+              <tr key={service._id} className="text-center border-b hover:bg-gray-50 transition">
+                <td className="p-3">{service.serviceName}</td>
+                <td className="p-3">{service.description}</td>
+                <td className="p-3">₹{service.price}</td>
+                <td className="p-3">
                   <img
                     src={`http://localhost:5000/${service.image}`}
                     alt={service.serviceName}
                     className="h-12 w-12 rounded"
                   />
                 </td>
-                <td className="py-2 px-4 border-b">
+                <td className="p-3">
                   <button
                     onClick={() => handleDelete(service._id)}
                     className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700"
@@ -102,6 +115,7 @@ const ViewServices = () => {
           </tbody>
         </table>
       </div>
+
     </div>
   );
 };
