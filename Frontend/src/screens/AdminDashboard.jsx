@@ -17,7 +17,7 @@ const AdminDashboard = () => {
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
-      <Sidebar setActivePage={setActivePage} />
+      <Sidebar setActivePage={setActivePage} activePage={activePage}/>
       
       {/* Main Content */}
       <div className="flex-1 p-4 overflow-y-auto bg-gradient-to-br from-blue-50 to-blue-200 ml-64">

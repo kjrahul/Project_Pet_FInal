@@ -12,7 +12,7 @@ import {
   FaHandsHelping,
 } from "react-icons/fa";
 
-const Sidebar = ({ setActivePage }) => {
+const Sidebar = ({ activePage, setActivePage }) => {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
 
@@ -50,8 +50,11 @@ const Sidebar = ({ setActivePage }) => {
           {menuItems.map((item, idx) => (
             <li
               key={idx}
-              className="flex items-center gap-3 px-6 py-3 text-gray-700 hover:bg-orange-100 cursor-pointer transition duration-200"
-              onClick={() => setActivePage(item.page)}
+              className={`flex items-center gap-3 px-6 py-3 cursor-pointer transition duration-200 
+                ${activePage === item.page
+                  ? "bg-orange-500 text-white font-semibold"
+                  : "text-gray-700 hover:bg-orange-100"}
+              `} onClick={() => setActivePage(item.page)}
             >
               {item.icon}
               <span>{item.label}</span>
