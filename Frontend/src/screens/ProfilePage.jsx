@@ -45,7 +45,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-200 p-6">
       <Navbar />
 
       <div className="max-w-6xl mx-auto grid grid-cols-12 gap-6">

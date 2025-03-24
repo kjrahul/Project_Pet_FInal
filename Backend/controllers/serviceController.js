@@ -162,7 +162,7 @@ const getServiceProviderDetails = async (req, res) => {
     }
 
     res.status(200).json(serviceProvider);
-  } catch (error) {
+  } catch (error) { 
     console.error("❌ Error fetching service provider details:", error);
     res.status(500).json({ message: "Failed to fetch service provider details" });
   }

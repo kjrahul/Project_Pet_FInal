@@ -14,13 +14,28 @@ const AdoptionRequestPage = () => {
 
   const [formData, setFormData] = useState({
     userName: "",
-    userAge: "",
+    address: "",
     phoneNumber: "",
     hasOtherPets: false,
     adoptionReason: "",
     idProof: null,
   });
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userId = sessionStorage.getItem("userId");
 
+      const response = await axios.get(
+        `http://localhost:5000/api/users/${userId}`
+      );
+      setFormData(formData => ({
+        ...formData,
+        userName: response.data.name,
+        phoneNumber: response.data.phoneNumber,
+        address: response.data.address
+      }))
+    }
+    fetchUser();
+  }, [])
   useEffect(() => {
     if (!petId) {
       alert("Invalid request!");
@@ -57,7 +72,7 @@ const AdoptionRequestPage = () => {
     formDataToSend.append("adoptionPostId", petId);
     formDataToSend.append("userId", userId);
     formDataToSend.append("userName", formData.userName);
-    formDataToSend.append("userAge", formData.userAge);
+    formDataToSend.append("address", formData.address);
     formDataToSend.append("phoneNumber", formData.phoneNumber);
     formDataToSend.append("hasOtherPets", formData.hasOtherPets);
     formDataToSend.append("adoptionReason", formData.adoptionReason);
@@ -108,10 +123,10 @@ const AdoptionRequestPage = () => {
           />
           <input
             type="number"
-            name="userAge"
-            value={formData.userAge}
+            name="address"
+            value={formData.address}
             onChange={handleChange}
-            placeholder="Your Age"
+            placeholder="Your Address"
             required
             className="w-full p-2 border rounded-md"
           />

@@ -80,9 +80,9 @@ const Navbar = () => {
             <div className="flex flex-col items-center gap-6">
               <NavLink to="/home" label="Home" location={location.pathname} onClick={() => setIsOpen(false)} />
               <NavLink to="/vetlist" label="Veterinary" location={location.pathname} onClick={() => setIsOpen(false)} />
+              <NavLink to="/serviceprovidershome" label="Service Providers" location={location.pathname} onClick={() => setIsOpen(false)} />
               <NavLink to="/products" label="Marketplace" location={location.pathname} onClick={() => setIsOpen(false)} />
               <NavLink to="/adoptionhome" label="Adoptions" location={location.pathname} onClick={() => setIsOpen(false)} />
-              <NavLink to="/serviceprovidershome" label="Service Providers" location={location.pathname} onClick={() => setIsOpen(false)} />
               <Link
                 to="/profile"
                 className="text-gray-700 font-medium hover:text-orange-500"

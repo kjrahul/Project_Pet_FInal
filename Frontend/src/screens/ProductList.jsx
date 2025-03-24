@@ -19,6 +19,19 @@ const ProductsPage = () => {
 
   // ✅ Fetch products
   useEffect(() => {
+    const fetchUser = async () => {
+      const userId = sessionStorage.getItem("userId");
+
+      const response = await axios.get(
+        `http://localhost:5000/api/users/${userId}`
+      );
+      setCheckoutDetails(checkoutDetails => ({
+        ...checkoutDetails,
+        name: response.data.name,
+        phoneNumber: response.data.phoneNumber,
+        address: response.data.address,
+      }))
+    }
     const fetchProducts = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/products/get-products");
@@ -31,6 +44,7 @@ const ProductsPage = () => {
     };
 
     fetchProducts();
+    fetchUser();
   }, []);
 
   // ✅ Handle input changes
@@ -140,8 +154,14 @@ const ProductsPage = () => {
         <div className="max-w-lg mx-auto bg-white p-6 shadow-lg rounded-lg">
           {/* Product Details */}
           <h2 className="text-xl font-bold mb-4">Checkout</h2>
-          <p>{checkoutProduct.productName}</p>
-          <p>Price: ₹{checkoutProduct.productPrice}</p>
+          <img
+            src={`http://localhost:5000/${checkoutProduct.image}`}
+            alt={checkoutProduct.productName}
+            className="w-full h-40 object-cover rounded-md"
+          />
+          <h3 className="text-lg font-bold mt-2">{checkoutProduct.productName}</h3>
+          <p className="text-gray-600">₹{checkoutProduct.productPrice}</p>
+          {/* <p className="text-black">{checkoutProduct.description}</p> */}
           <input
             type="number"
             value={checkoutDetails.quantity}
@@ -158,6 +178,7 @@ const ProductsPage = () => {
             type="text"
             name="name"
             placeholder="Full Name"
+            value={checkoutDetails.name}
             onChange={handleInputChange}
             className="w-full border p-2 mt-4"
           />
@@ -165,6 +186,7 @@ const ProductsPage = () => {
             type="text"
             name="phoneNumber"
             placeholder="Phone Number"
+            value={checkoutDetails.phoneNumber}
             onChange={handleInputChange}
             className="w-full border p-2 mt-2"
           />
@@ -172,6 +194,7 @@ const ProductsPage = () => {
             type="text"
             name="address"
             placeholder="Address"
+            value={checkoutDetails.address}
             onChange={handleInputChange}
             className="w-full border p-2 mt-2"
           />

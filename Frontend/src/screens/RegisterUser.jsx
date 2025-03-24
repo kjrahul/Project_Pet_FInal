@@ -11,6 +11,7 @@ const RegisterUser = () => {
     email: "",
     phoneNumber: "",
     location: "",
+    address: "",
     password: "",
   });
 
@@ -48,7 +49,7 @@ const RegisterUser = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-200">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <img
           src="/Logo.jpg"
@@ -85,6 +86,14 @@ const RegisterUser = () => {
             onChange={handleChange}
             required
             className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-orange-400"
+          />
+            <input
+            type="text"
+            name="address"
+            placeholder="Address"
+            value={formData.address}
+            onChange={handleChange}
+            className="w-full border p-2 mt-2"
           />
           <input
             type="text"
