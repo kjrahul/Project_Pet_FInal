@@ -6,7 +6,7 @@ import Sidebar from "../components/SideBarSP";
 import axios from "axios";
 
 const ServiceProviderDashboard = () => {
-  const [activePage, setActivePage] = useState("addService");
+  const [activePage, setActivePage] = useState("viewServices");
   const [serviceProvider, setServiceProvider] = useState(null);
 
   const userId = sessionStorage.getItem("userId");
