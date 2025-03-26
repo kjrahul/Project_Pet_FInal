@@ -122,7 +122,7 @@ const AdoptionRequestPage = () => {
             className="w-full p-2 border rounded-md"
           />
           <input
-            type="number"
+            type="text"
             name="address"
             value={formData.address}
             onChange={handleChange}

@@ -280,12 +280,13 @@ const ServicesPage = () => {
             )}
 
             <input
-              type="datetime-local"
-              name="timeSlot"
-              value={bookingDetails.timeSlot}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded-md mb-2"
-            />
+      type="datetime-local"
+      name="timeSlot"
+      value={bookingDetails.timeSlot}
+      onChange={handleInputChange}
+      className="w-full p-2 border rounded-md mb-2"
+      min={new Date().toISOString().slice(0, 16)}
+    />
 
             <div className="flex justify-end gap-3 mt-4">
               <button

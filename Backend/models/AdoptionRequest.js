@@ -4,7 +4,7 @@ const adoptionRequestSchema = new mongoose.Schema({
   adoptionPostId: { type: mongoose.Schema.Types.ObjectId, ref: "Adoption", required: true },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // ✅ Added userId
   userName: { type: String, required: true },
-  address: { type: Number, required: true },
+  address: { type: String, required: true },
   idProof: { type: String, required: true },
   phoneNumber: { type: String, required: true },
   hasOtherPets: { type: Boolean, required: true },

@@ -242,13 +242,15 @@ const BookingPage = () => {
             <div>
               <label className="block text-sm font-semibold text-gray-700">Time of Booking</label>
               <input
-                type="datetime-local"
-                name="timeOfBooking"
-                value={formData.timeOfBooking}
-                onChange={handleChange}
-                required
-                className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-orange-400"
-              />
+  type="datetime-local"
+  name="timeOfBooking"
+  value={formData.timeOfBooking}
+  onChange={handleChange}
+  required
+  className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-orange-400"
+  min={new Date().toISOString().slice(0, 16)} // Restricts past dates
+/>
+
             </div>
 
             {/* Submit */}

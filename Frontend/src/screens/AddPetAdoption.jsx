@@ -141,12 +141,14 @@ const AddPetAdoption = () => {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Last Date for Adoption</label>
           <input
-            type="date"
-            value={lastDate}
-            onChange={(e) => setLastDate(e.target.value)}
-            className="w-full border p-2 rounded"
-            required
-          />
+  type="date"
+  value={lastDate}
+  onChange={(e) => setLastDate(e.target.value)}
+  className="w-full border p-2 rounded"
+  min={new Date().toISOString().split("T")[0]} // Restricts past dates
+  required
+/>
+
         </div>
 
         {/* Submit Button */}
