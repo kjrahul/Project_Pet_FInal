@@ -24,6 +24,7 @@ const ServicesPage = () => {
     modeOfService: "",
     address: "",
     timeSlot: "",
+    durationDays: 1,
   });
   const [serviceProvider, setServiceProvider] = useState(null);
 
@@ -40,7 +41,7 @@ const ServicesPage = () => {
         address: response.data.address
       }))
     }
-    
+
     const fetchServiceProviderDetails = async () => {
       try {
         const response = await axios.get(
@@ -48,7 +49,7 @@ const ServicesPage = () => {
         );
         setServiceProvider(response.data);
         console.log(response.data);
-        
+
       } catch (error) {
         console.error("Failed to fetch service provider details:", error);
       }
@@ -94,6 +95,8 @@ const ServicesPage = () => {
       modeOfService: "",
       address: "",
       timeSlot: "",
+      durationDays: 1,
+
     });
   };
 
@@ -122,6 +125,7 @@ const ServicesPage = () => {
             ? bookingDetails.address
             : undefined,
         timeSlot: bookingDetails.timeSlot,
+        durationDays: selectedService.serviceType === 'Boarding' ? bookingDetails.durationDays : undefined
       };
 
       await axios.post(
@@ -228,6 +232,7 @@ const ServicesPage = () => {
             />
             <h3 className="text-lg font-semibold">{service.serviceName}</h3>
             <p className="text-sm text-gray-600">{service.description}</p>
+            <p className="font-bold text-green-500">{service.serviceType}</p>
             <p className="font-bold text-orange-500">₹{service.price}</p>
 
             <button
@@ -278,15 +283,26 @@ const ServicesPage = () => {
                 className="w-full p-2 border rounded-md mb-2"
               />
             )}
-
             <input
-      type="datetime-local"
-      name="timeSlot"
-      value={bookingDetails.timeSlot}
-      onChange={handleInputChange}
-      className="w-full p-2 border rounded-md mb-2"
-      min={new Date().toISOString().slice(0, 16)}
-    />
+              type="datetime-local"
+              name="timeSlot"
+              value={bookingDetails.timeSlot}
+              onChange={handleInputChange}
+              className="w-full p-2 border rounded-md mb-2"
+              min={new Date().toISOString().slice(0, 16)}
+            />
+            {selectedService.serviceType === "Boarding" &&
+
+              <input
+                type="number"
+                name="durationDays"
+                value={bookingDetails.durationDays}
+                onChange={handleInputChange}
+                placeholder="Duration in days"
+                className="w-full p-2 border rounded-md mb-2"
+                min={1}
+                required
+              />}
 
             <div className="flex justify-end gap-3 mt-4">
               <button

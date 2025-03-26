@@ -61,11 +61,10 @@ const ProfilePage = () => {
             ].map((tab) => (
               <li
                 key={tab.key}
-                className={`cursor-pointer p-2 rounded-md text-lg font-medium ${
-                  selectedTab === tab.key
+                className={`cursor-pointer p-2 rounded-md text-lg font-medium ${selectedTab === tab.key
                     ? "bg-blue-500 text-white"
                     : "bg-gray-200 hover:bg-gray-300"
-                }`}
+                  }`}
                 onClick={() => setSelectedTab(tab.key)}
               >
                 {tab.label}
@@ -111,14 +110,17 @@ const ProfilePage = () => {
                   sortByPendingStatus(userServiceBookings).map((booking) => (
                     <div key={booking._id} className="border p-4 mb-2 rounded-lg shadow-md">
                       <p><strong>Service:</strong> {booking?.serviceId?.serviceName}</p>
+                      <p><strong>Service Type:</strong> {booking?.serviceId?.serviceType}</p>
                       <p><strong>Provider:</strong> {booking?.serviceId?.serviceProvider?.orgName || "N/A"}</p>
                       <p><strong>Location:</strong> {booking?.serviceId?.serviceProvider?.orgLocation || "N/A"}</p>
                       <p><strong>Mode:</strong> {booking.modeOfService}</p>
-                      <p><strong>Status:</strong> 
+                      <p><strong>Status:</strong>
                         <span className={booking.status === "Approved" ? "text-green-500" : "text-yellow-500"}>
                           {booking.status}
                         </span>
                       </p>
+                      {booking?.serviceId?.serviceType==='Boarding'&&
+                      <p><strong>Duration:</strong> {booking.durationDays} Day(s)</p>}
                       <p><strong>Date:</strong> {new Date(booking.timeSlot).toLocaleString()}</p>
                     </div>
                   ))
@@ -138,7 +140,7 @@ const ProfilePage = () => {
                       <p><strong>Pet Type:</strong> {booking.petType}</p>
                       <p><strong>Pet Disease:</strong> {booking.petDisease}</p>
                       <p><strong>Date:</strong> {new Date(booking.timeOfBooking).toLocaleString()}</p>
-                      <p><strong>Status:</strong> 
+                      <p><strong>Status:</strong>
                         <span className={booking.status === "Approved" ? "text-green-500" : "text-yellow-500"}>
                           {booking.status}
                         </span>
@@ -164,11 +166,11 @@ const ProfilePage = () => {
                       />
                       <p><strong>Pet Type:</strong> {adoption.adoptionPostId?.petType}</p>
                       <p><strong>Age:</strong> {adoption.adoptionPostId?.petAge} years</p>
-                      <p><strong>Status:</strong> 
+                      <p><strong>Status:</strong>
                         <span className={
                           adoption.status === "accepted" ? "text-green-500" :
-                          adoption.status === "pending" ? "text-yellow-500" :
-                          "text-red-500"
+                            adoption.status === "pending" ? "text-yellow-500" :
+                              "text-red-500"
                         }>
                           {adoption.status}
                         </span>

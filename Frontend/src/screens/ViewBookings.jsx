@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const ViewBookings = () => {
+const ViewBookings = (props) => {
   const [bookings, setBookings] = useState([]);
   const [filteredBookings, setFilteredBookings] = useState([]);
   const [filter, setFilter] = useState("upcoming");
@@ -19,9 +19,11 @@ const ViewBookings = () => {
   const fetchBookings = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/services/bookings?userId=${userId}`
-      );
-
+        `http://localhost:5000/api/services/bookings?userId=${userId}`, {
+        params: {
+          type: props.type,
+        },
+      });
       const processedBookings = response.data
         .map((booking) => {
           const [date, time] = booking.timeSlot.split("T");
@@ -104,6 +106,9 @@ const ViewBookings = () => {
                 <th className="border p-3">Owner Name</th>
                 <th className="border p-3">Phone Number</th>
                 <th className="border p-3">Location</th>
+                <th className="border p-3">Service Name</th>
+                <th className="border p-3">Service  price</th>
+                {props.type === 'Boarding' && <th className="border p-3">Duration</th>}
                 <th className="border p-3">Mode Of Service</th>
                 <th className="border p-3">Date</th>
                 <th className="border p-3">Time</th>
@@ -119,6 +124,9 @@ const ViewBookings = () => {
                   <td className="p-3">{booking.userId?.name || "N/A"}</td>
                   <td className="p-3">{booking.userId?.phoneNumber || "N/A"}</td>
                   <td className="p-3">{booking.address || "N/A"}</td>
+                  <td className="p-3">{booking.serviceId.serviceName || "N/A"}</td>
+                  <td className="p-3">{booking.serviceId.price || "N/A"}</td>
+                  {props.type === 'Boarding' && <td className="p-3">{booking.durationDays || "N/A"}</td>}
                   <td className="p-3">{booking.modeOfService || "N/A"}</td>
                   <td className="p-3">{booking.date || "N/A"}</td>
                   <td className="p-3">{booking.time || "N/A"}</td>

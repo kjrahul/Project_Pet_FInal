@@ -6,7 +6,9 @@ const serviceSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   image: { type: String, required: true },
   serviceProvider: { type: mongoose.Schema.Types.ObjectId, ref: "ServiceProvider", required: false },
-  status: { type: String, default: "available" } // available, booked, completed
+  status: { type: String, default: "available" }, // available, booked, completed
+  serviceType: { type: String, required: true, enum: ["Grooming", "Boarding", "Walking", "Training"] }, // Modify based on roles
+
 });
 
 module.exports = mongoose.model("Service", serviceSchema);
