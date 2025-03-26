@@ -40,7 +40,7 @@ function App() {
     <Routes>
       {/* ✅ Public Routes */}
       <Route path="/options" element={<SplashPage />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Login />} />
       <Route path="/userreg" element={<RegisterUser />} />
       <Route path="/SPreg" element={<RegisterServiceProvider />} />
       <Route path="/vetReg" element={<RegisterVetDoctor />} />
@@ -63,7 +63,7 @@ function App() {
       <Route path="/vetdash" element={<ProtectedRoute element={<VetDashboard />} />} />
       <Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />} />
       <Route path="/success" element={<SuccessPage />} />
-      <Route path="/" element={<SplashScreen/>} />
+      {/* <Route path="/" element={<SplashScreen/>} /> */}
     </Routes>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import { FaStore } from "react-icons/fa";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -18,6 +19,19 @@ const ProductsPage = () => {
 
   // ✅ Fetch products
   useEffect(() => {
+    const fetchUser = async () => {
+      const userId = sessionStorage.getItem("userId");
+
+      const response = await axios.get(
+        `http://localhost:5000/api/users/${userId}`
+      );
+      setCheckoutDetails(checkoutDetails => ({
+        ...checkoutDetails,
+        name: response.data.name,
+        phoneNumber: response.data.phoneNumber,
+        address: response.data.address,
+      }))
+    }
     const fetchProducts = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/products/get-products");
@@ -30,6 +44,7 @@ const ProductsPage = () => {
     };
 
     fetchProducts();
+    fetchUser();
   }, []);
 
   // ✅ Handle input changes
@@ -56,7 +71,7 @@ const ProductsPage = () => {
 
     if (!userId) {
       alert("Please log in to continue.");
-      navigate("/login");
+      navigate("/");
       return;
     }
 
@@ -102,9 +117,17 @@ const ProductsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-200 p-6">
       <Navbar />
-
+      <div className="text-center mb-10">
+        <div className="flex justify-center items-center gap-3 mb-2">
+          <FaStore className="text-4xl text-orange-500" />
+          <h2 className="text-4xl font-extrabold text-gray-800">
+            Marketplace
+          </h2>
+        </div>
+        <div className="w-24 h-1 bg-gradient-to-r from-orange-400 to-orange-600 mx-auto mt-2 rounded-full" />
+      </div>
       {!checkoutProduct ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {products.map((product) => (
@@ -131,8 +154,14 @@ const ProductsPage = () => {
         <div className="max-w-lg mx-auto bg-white p-6 shadow-lg rounded-lg">
           {/* Product Details */}
           <h2 className="text-xl font-bold mb-4">Checkout</h2>
-          <p>{checkoutProduct.productName}</p>
-          <p>Price: ₹{checkoutProduct.productPrice}</p>
+          <img
+            src={`http://localhost:5000/${checkoutProduct.image}`}
+            alt={checkoutProduct.productName}
+            className="w-full h-40 object-cover rounded-md"
+          />
+          <h3 className="text-lg font-bold mt-2">{checkoutProduct.productName}</h3>
+          <p className="text-gray-600">₹{checkoutProduct.productPrice}</p>
+          {/* <p className="text-black">{checkoutProduct.description}</p> */}
           <input
             type="number"
             value={checkoutDetails.quantity}
@@ -149,6 +178,7 @@ const ProductsPage = () => {
             type="text"
             name="name"
             placeholder="Full Name"
+            value={checkoutDetails.name}
             onChange={handleInputChange}
             className="w-full border p-2 mt-4"
           />
@@ -156,6 +186,7 @@ const ProductsPage = () => {
             type="text"
             name="phoneNumber"
             placeholder="Phone Number"
+            value={checkoutDetails.phoneNumber}
             onChange={handleInputChange}
             className="w-full border p-2 mt-2"
           />
@@ -163,6 +194,7 @@ const ProductsPage = () => {
             type="text"
             name="address"
             placeholder="Address"
+            value={checkoutDetails.address}
             onChange={handleInputChange}
             className="w-full border p-2 mt-2"
           />

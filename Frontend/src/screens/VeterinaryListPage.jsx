@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+import { FaStar, FaStarHalfAlt, FaRegStar, FaPaw, FaUserMd } from "react-icons/fa";
 import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
 import { IoSchoolSharp } from "react-icons/io5";
 import { GiMedal } from "react-icons/gi";
@@ -67,13 +67,19 @@ const VeterinaryListPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-200 p-6">
       <Navbar />
 
       {/* Title */}
-      <h2 className="text-4xl font-extrabold mb-8 text-center text-gray-800 relative after:content-[''] after:block after:w-24 after:h-1 after:bg-gradient-to-r after:from-orange-400 after:to-orange-600 after:mx-auto after:mt-2">
-        Veterinary Clinics
-      </h2>
+      <div className="text-center mb-10">
+        <div className="flex justify-center items-center gap-3 mb-2">
+          <FaUserMd className="text-4xl text-orange-500" />
+          <h2 className="text-4xl font-extrabold text-gray-800">
+            Veterinary Clinics
+          </h2>
+        </div>
+        <div className="w-24 h-1 bg-gradient-to-r from-orange-400 to-orange-600 mx-auto mt-2 rounded-full" />
+      </div>
 
       {/* Filter Section */}
       <div className="flex justify-end mb-6 gap-4">

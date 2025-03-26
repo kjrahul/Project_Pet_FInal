@@ -45,75 +45,88 @@ const ServiceProviders = () => {
     viewType === "pending"
       ? pendingProviders
       : viewType === "accepted"
-      ? acceptedProviders
-      : [...pendingProviders, ...acceptedProviders];
+        ? acceptedProviders
+        : [...pendingProviders, ...acceptedProviders];
 
   return (
-    <div className="p-5">
-      <h2 className="text-2xl font-bold mb-4">Service Providers</h2>
+    <div className="p-5 bg-white rounded-xl shadow-md">
+      <div className="flex justify-between items-center mb-4">
+        {/* ✅ Left: Filter Dropdown */}
 
-      {/* ✅ Filter Dropdown */}
-      <div className="mb-4">
-        <select
-          value={viewType}
-          onChange={(e) => setViewType(e.target.value)}
-          className="p-2 border rounded bg-white"
-        >
-          <option value="all">View All</option>
-          <option value="pending">View Pending</option>
-          <option value="accepted">View Accepted</option>
-        </select>
+        {/* ✅ Right: Heading */}
+        <h2 className="text-2xl font-bold">Service Providers</h2>
+        <div>
+          <select
+            value={viewType}
+            onChange={(e) => setViewType(e.target.value)}
+            className="p-2 border rounded bg-white"
+          >
+            <option value="all">View All</option>
+            <option value="pending">View Pending</option>
+            <option value="accepted">View Accepted</option>
+          </select>
+        </div>
       </div>
 
       {/* ✅ Table for Providers */}
       {displayedProviders.length === 0 ? (
-        <p className="text-gray-500">
-          No {viewType === "pending" ? "pending" : viewType === "accepted" ? "accepted" : ""} service providers found.
+        <p className="text-gray-500 text-center py-10">
+          No{" "}
+          {viewType === "pending"
+            ? "pending"
+            : viewType === "accepted"
+              ? "accepted"
+              : ""}{" "}
+          service providers found.
         </p>
       ) : (
-        <table className="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border p-2">Logo</th>
-              <th className="border p-2">Organization Name</th>
-              <th className="border p-2">Location</th>
-              <th className="border p-2">Registration ID</th>
-              <th className="border p-2">Email</th>
-              <th className="border p-2">Phone Number</th>
-              {viewType === "pending" && <th className="border p-2">Actions</th>}
-            </tr>
-          </thead>
-          <tbody>
-            {displayedProviders.map((provider) => (
-              <tr key={provider._id} className="text-center">
-                <td className="border p-2">
-                  <img
-                    src={`http://localhost:5000/${provider.logo}`}
-                    alt="Provider Logo"
-                    className="w-16 h-16 object-cover rounded-full border"
-                  />
-                </td>
-                <td className="border p-2">{provider.orgName}</td>
-                <td className="border p-2">{provider.orgLocation}</td>
-                <td className="border p-2">{provider.orgRegId}</td>
-                <td className="border p-2">{provider.email}</td>
-                <td className="border p-2">{provider.phoneNumber}</td>
-                {viewType === "pending" && (
-                  <td className="border p-2">
-                    <button
-                      onClick={() => acceptProvider(provider._id)}
-                      className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
-                    >
-                      Accept
-                    </button>
-                  </td>
-                )}
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-collapse text-sm">
+            <thead>
+              <tr className="bg-blue-50 text-gray-700">
+                <th className="border p-3">S.No</th>
+                <th className="border p-3">Logo</th>
+                <th className="border p-3">Organization Name</th>
+                <th className="border p-3">Location</th>
+                <th className="border p-3">Registration ID</th>
+                <th className="border p-3">Email</th>
+                <th className="border p-3">Phone Number</th>
+                {viewType === "pending" && <th className="border p-3">Actions</th>}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {displayedProviders.map((provider, index) => (
+                <tr key={provider._id} className="text-center hover:bg-gray-50 transition">
+                  <td className="p-3">{index + 1}</td>
+                  <td className="p-3">
+                    <img
+                      src={`http://localhost:5000/${provider.logo.replace(/\\/g, "/")}`}
+                      alt="Provider Logo"
+                      className="w-16 h-16 object-cover rounded shadow-sm mx-auto"
+                    />
+                  </td>
+                  <td className="p-3">{provider.orgName}</td>
+                  <td className="p-3">{provider.orgLocation}</td>
+                  <td className="p-3">{provider.orgRegId}</td>
+                  <td className="p-3">{provider.email}</td>
+                  <td className="p-3">{provider.phoneNumber}</td>
+                  {viewType === "pending" && (
+                    <td className="p-3">
+                      <button
+                        onClick={() => acceptProvider(provider._id)}
+                        className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition"
+                      >
+                        Accept
+                      </button>
+                    </td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table></div>
       )}
     </div>
+
   );
 };
 

@@ -43,96 +43,101 @@ const VetProviders = () => {
     viewType === "pending"
       ? pendingVets
       : viewType === "accepted"
-      ? acceptedVets
-      : [...pendingVets, ...acceptedVets];
+        ? acceptedVets
+        : [...pendingVets, ...acceptedVets];
 
   return (
-    <div className="p-5">
-      <h2 className="text-2xl font-bold mb-4">Vet Providers</h2>
+    <div className="p-5 bg-white rounded-xl shadow-md">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold mb-4">Vet Doctors</h2>
 
-      {/* ✅ Filter Dropdown */}
-      <div className="mb-4">
-        <select
-          value={viewType}
-          onChange={(e) => setViewType(e.target.value)}
-          className="p-2 border rounded bg-white"
-        >
-          <option value="all">View All</option>
-          <option value="pending">View Pending</option>
-          <option value="accepted">View Accepted</option>
-        </select>
+        {/* ✅ Filter Dropdown */}
+        <div className="mb-4">
+          <select
+            value={viewType}
+            onChange={(e) => setViewType(e.target.value)}
+            className="p-3 border rounded bg-white"
+          >
+            <option value="all">View All</option>
+            <option value="pending">View Pending</option>
+            <option value="accepted">View Accepted</option>
+          </select>
+        </div>
       </div>
 
       {/* ✅ Table for Vets */}
       {displayedVets.length === 0 ? (
-        <p className="text-gray-500">
+        <p className="text-gray-500 text-center py-10">
           No {viewType === "pending" ? "pending" : viewType === "accepted" ? "accepted" : ""} vets found.
         </p>
       ) : (
-        <table className="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border p-2">S. No</th>
-              <th className="border p-2">Logo</th>
-              <th className="border p-2">Name</th>
-              <th className="border p-2">Location</th>
-              <th className="border p-2">Qualification</th>
-              <th className="border p-2">Experience</th>
-              <th className="border p-2">Phone Number</th>
-              <th className="border p-2">Certificate</th>
-              {viewType === "pending" && <th className="border p-2">Actions</th>}
-            </tr>
-          </thead>
-          <tbody>
-            {displayedVets.map((vet, index) => (
-              <tr key={vet._id} className="text-center">
-                {/* ✅ Serial Number */}
-                <td className="border p-2">{index + 1}</td>
-                
-                {/* ✅ Display Logo */}
-                <td className="border p-2">
-                  <img
-                    src={
-                      vet.logo
-                        ? `http://localhost:5000/${vet.logo}`
-                        : "/placeholder-logo.png"
-                    }
-                    alt="Vet Logo"
-                    className="w-12 h-12 rounded-full object-cover border"
-                  />
-                </td>
-                <td className="border p-2">{vet.name}</td>
-                <td className="border p-2">{vet.location}</td>
-                <td className="border p-2">{vet.qualification}</td>
-                <td className="border p-2">{vet.experience} years</td>
-                <td className="border p-2">{vet.phoneNumber}</td>
-                
-                {/* ✅ Download Certificate */}
-                <td className="border p-2">
-                  <a
-                    href={`http://localhost:5000/${vet.certificate}`}
-                    download
-                    className="text-blue-500 hover:underline"
-                  >
-                    Download
-                  </a>
-                </td>
-                
-                {/* ✅ Accept Button for Pending */}
-                {viewType === "pending" && (
-                  <td className="border p-2">
-                    <button
-                      onClick={() => acceptVet(vet._id)}
-                      className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
-                    >
-                      Accept
-                    </button>
-                  </td>
-                )}
+        <div className="overflow-x-auto">
+
+          <table className="min-w-full border-collapse text-sm">
+            <thead>
+              <tr className="bg-blue-50 text-gray-700">
+                <th className="border p-3">S. No</th>
+                <th className="border p-3">Logo</th>
+                <th className="border p-3">Name</th>
+                <th className="border p-3">Location</th>
+                <th className="border p-3">Qualification</th>
+                <th className="border p-3">Experience</th>
+                <th className="border p-3">Phone Number</th>
+                <th className="border p-3">Certificate</th>
+                {viewType === "pending" && <th className="border p-3">Actions</th>}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {displayedVets.map((vet, index) => (
+                <tr key={vet._id} className="text-center">
+                  {/* ✅ Serial Number */}
+                  <td className="border p-3">{index + 1}</td>
+
+                  {/* ✅ Display Logo */}
+                  <td className="border p-3">
+                    <img
+                      src={
+                        vet.logo
+                          ? `http://localhost:5000/${vet.logo}`
+                          : "/placeholder-logo.png"
+                      }
+                      alt="Vet Logo"
+                      className="w-16 h-16 object-cover rounded shadow-sm mx-auto"
+                    />
+                  </td>
+                  <td className="border p-3">{vet.name}</td>
+                  <td className="border p-3">{vet.location}</td>
+                  <td className="border p-3">{vet.qualification}</td>
+                  <td className="border p-3">{vet.experience} years</td>
+                  <td className="border p-3">{vet.phoneNumber}</td>
+
+                  {/* ✅ Download Certificate */}
+                  <td className="border p-3">
+                    <a
+                      href={`http://localhost:5000/${vet.certificate}`}
+                      download
+                      className="text-blue-500 hover:underline"
+                    >
+                      Download
+                    </a>
+                  </td>
+
+                  {/* ✅ Accept Button for Pending */}
+                  {viewType === "pending" && (
+                    <td className="border p-3">
+                      <button
+                        onClick={() => acceptVet(vet._id)}
+                        className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition"
+                      >
+                        Accept
+                      </button>
+                    </td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

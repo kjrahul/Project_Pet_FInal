@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
-import { FaStar, FaRegStar, FaMapMarkerAlt, FaEnvelope, FaPhone, FaBuilding } from "react-icons/fa";
+import { FaStar, FaRegStar, FaMapMarkerAlt, FaEnvelope, FaPhone, FaBuilding, FaHandsHelping } from "react-icons/fa";
 
 const ServiceProvidersPage = () => {
   const navigate = useNavigate();
@@ -54,16 +54,23 @@ const ServiceProvidersPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-200 p-6">
       <Navbar />
-      <h2 className="text-4xl font-extrabold mb-8 text-center text-gray-800 relative after:content-[''] after:block after:w-24 after:h-1 after:bg-gradient-to-r after:from-orange-400 after:to-orange-600 after:mx-auto after:mt-2">
-        Service Providers
-      </h2>
+
+      <div className="text-center mb-10">
+        <div className="flex justify-center items-center gap-3 mb-2">
+          <FaHandsHelping className="text-4xl text-orange-500" />
+          <h2 className="text-4xl font-extrabold text-gray-800">
+            Service Providers
+          </h2>
+        </div>
+        <div className="w-24 h-1 bg-gradient-to-r from-orange-400 to-orange-600 mx-auto mt-2 rounded-full" />
+      </div>
 
       {/* ✅ Filter Section */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-end mb-6 gap-4">
         <div>
-          <label className="block mb-2 font-medium text-gray-600">Location</label>
+          <label className="block mb-2 font-medium text-gray-600">Filter by Location</label>
           <select
             value={location}
             onChange={(e) => setLocation(e.target.value)}

@@ -47,7 +47,7 @@ const AddPetAdoption = () => {
       );
       console.log(response.data);
       alert("Pet adoption details added successfully!");
-      
+
       // Reset form after submission
       setPetType("");
       setPetAge("");
@@ -62,94 +62,107 @@ const AddPetAdoption = () => {
   };
 
   return (
-    <div className="p-5">
-      <h2 className="text-2xl font-bold mb-4">Add Pet Adoption</h2>
-      <form 
-        onSubmit={handleSubmit} 
-        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+    <div className="p-6 bg-white rounded-xl shadow-md">
+      <h2 className="text-2xl font-bold mb-1">Add Pet Adoption</h2>
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-2 gap-6"
       >
-        {/* Pet Type (Dropdown) */}
-        <select
-          value={petType}
-          onChange={(e) => setPetType(e.target.value)}
-          className="border p-2 rounded"
-          required
-        >
-          <option value="" disabled>Select Pet Type</option>
-          <option value="Dog">Dog</option>
-          <option value="Cat">Cat</option>
-          <option value="Bird">Bird</option>
-          <option value="Rabbit">Rabbit</option>
-          <option value="Fish">Fish</option>
-          <option value="Other">Other</option>
-        </select>
+        {/* Pet Type Dropdown */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Pet Type</label>
+          <select
+            value={petType}
+            onChange={(e) => setPetType(e.target.value)}
+            className="w-full border p-2 rounded"
+            required
+          >
+            <option value="" disabled>Select Pet Type</option>
+            <option value="Dog">Dog</option>
+            <option value="Cat">Cat</option>
+            <option value="Bird">Bird</option>
+            <option value="Rabbit">Rabbit</option>
+            <option value="Fish">Fish</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
 
         {/* Pet Age */}
-        <input
-          type="text"
-          placeholder="Pet Age"
-          value={petAge}
-          onChange={(e) => setPetAge(e.target.value)}
-          className="border p-2 rounded"
-          required
-        />
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Pet Age</label>
+          <input
+            type="text"
+            placeholder="e.g. 2 years"
+            value={petAge}
+            onChange={(e) => setPetAge(e.target.value)}
+            className="w-full border p-2 rounded"
+            required
+          />
+        </div>
 
-        {/* Specifications */}
-        <div className="col-span-2">
+        {/* Specifications with Add Option */}
+        <div className="md:col-span-2">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Specifications</label>
           <div className="flex gap-2">
             <input
               type="text"
-              placeholder="Specification"
+              placeholder="e.g. Vaccinated"
               value={spec}
               onChange={(e) => setSpec(e.target.value)}
-              className="border p-2 rounded flex-1"
+              className="flex-1 border p-2 rounded"
             />
             <button
               type="button"
               onClick={handleAddSpec}
-              className="bg-blue-500 text-white px-4 py-2 rounded"
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
             >
               Add
             </button>
           </div>
-          <ul className="mt-2">
+          <ul className="mt-2 list-disc list-inside text-sm text-gray-600">
             {specifications.map((s, index) => (
-              <li key={index} className="list-disc ml-5 text-sm">
-                {s}
-              </li>
+              <li key={index}>{s}</li>
             ))}
           </ul>
         </div>
 
-        {/* Image */}
-        <input
-          type="file"
-          onChange={(e) => setImage(e.target.files[0])}
-          className="border p-2 rounded"
-          required
-        />
+        {/* Image Upload */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
+          <input
+            type="file"
+            onChange={(e) => setImage(e.target.files?.[0])}
+            className="w-full border p-2 rounded"
+            required
+          />
+        </div>
 
         {/* Last Date */}
-        <input
-          type="date"
-          value={lastDate}
-          onChange={(e) => setLastDate(e.target.value)}
-          className="border p-2 rounded"
-          required
-        />
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Last Date for Adoption</label>
+          <input
+  type="date"
+  value={lastDate}
+  onChange={(e) => setLastDate(e.target.value)}
+  className="w-full border p-2 rounded"
+  min={new Date().toISOString().split("T")[0]} // Restricts past dates
+  required
+/>
 
-     
-        
+        </div>
 
         {/* Submit Button */}
-        <button
-          type="submit"
-          className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 col-span-2"
-        >
-          Add Pet
-        </button>
+        {/* <div className="md:col-span-2"> */}
+          <button
+            type="submit"
+            className="md:col-span-2 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-medium transition"
+          >
+            Add Pet
+          </button>
+        {/* </div> */}
       </form>
     </div>
+
   );
 };
 

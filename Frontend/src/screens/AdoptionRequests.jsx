@@ -42,16 +42,16 @@ const AdoptionRequests = () => {
   }, []);
 
   return (
-    <div className="p-5">
+    <div className="p-5 bg-white rounded-xl shadow-md">
       <h2 className="text-2xl font-bold mb-4">Pending Adoption Requests</h2>
 
       {requests.length === 0 ? (
-        <p className="text-gray-500">No pending adoption requests found.</p>
+        <p className="text-gray-500 text-center py-10">No pending adoption requests found.</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse border border-gray-300">
+          <table className="min-w-full border-collapse text-sm">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-blue-50 text-gray-700">
                 {[
                   "S. No",
                   "Image",
@@ -66,7 +66,7 @@ const AdoptionRequests = () => {
                 ].map((heading) => (
                   <th
                     key={heading}
-                    className="border px-4 py-3 text-sm font-semibold text-gray-700 text-center"
+                    className="border p-3"
                   >
                     {heading}
                   </th>
@@ -75,14 +75,14 @@ const AdoptionRequests = () => {
             </thead>
             <tbody>
               {requests.map((request, index) => (
-                <tr key={request._id} className="text-center">
+                <tr key={request._id} className="text-center border-b hover:bg-gray-50 transition">
                   {/* ✅ S. No */}
-                  <td className="border px-4 py-3 align-middle">
+                  <td className="p-3">
                     {index + 1}
                   </td>
 
                   {/* ✅ Image */}
-                  <td className="border px-4 py-3 align-middle">
+                  <td className="p-3">
                     {request.adoptionPostId?.image && (
                       <img
                         src={`http://localhost:5000/${request.adoptionPostId.image}`}
@@ -93,37 +93,37 @@ const AdoptionRequests = () => {
                   </td>
 
                   {/* ✅ User Name */}
-                  <td className="border px-4 py-3 align-middle">
+                  <td className="p-3">
                     {request.userName}
                   </td>
 
                   {/* ✅ Phone Number */}
-                  <td className="border px-4 py-3 align-middle">
+                  <td className="p-3">
                     {request.phoneNumber}
                   </td>
 
                   {/* ✅ Pet ID */}
-                  <td className="border px-4 py-3 align-middle">
+                  <td className="p-3">
                     {request.adoptionPostId?._id.slice(-4)}
                   </td>
 
                   {/* ✅ Age */}
-                  <td className="border px-4 py-3 align-middle">
+                  <td className="p-3">
                     {request.userAge}
                   </td>
 
                   {/* ✅ Other Pets */}
-                  <td className="border px-4 py-3 align-middle">
+                  <td className="p-3">
                     {request.hasOtherPets ? "Yes" : "No"}
                   </td>
 
                   {/* ✅ Reason */}
-                  <td className="border px-4 py-3 align-middle truncate max-w-xs">
+                  <td className="p-3 truncate max-w-xs">
                     {request.adoptionReason}
                   </td>
 
                   {/* ✅ Status */}
-                  <td className="border px-4 py-3 align-middle font-semibold">
+                  <td className="p-3 font-semibold">
                     {request.status === "accepted" ? (
                       <span className="text-green-500">Approved</span>
                     ) : request.status === "pending" ? (
@@ -134,7 +134,7 @@ const AdoptionRequests = () => {
                   </td>
 
                   {/* ✅ Actions */}
-                  <td className="border px-4 py-3 align-middle">
+                  <td className="p-3">
                     <div className="flex justify-center gap-2">
                       {/* Accept Button */}
                       {request.status === "pending" && (
@@ -148,6 +148,7 @@ const AdoptionRequests = () => {
 
                       {/* Download ID Proof Button */}
                       {request.idProof && (
+
                         <button
                           onClick={() => downloadIdProof(request.idProof)}
                           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"

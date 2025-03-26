@@ -52,7 +52,7 @@ const RegisterVetDoctor = () => {
       });
   
       // ✅ Redirect to login page after closing the alert
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       Swal.fire({
         icon: 'error',
@@ -64,7 +64,7 @@ const RegisterVetDoctor = () => {
   
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-200">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         {/* Logo */}
         <img
@@ -204,7 +204,7 @@ const RegisterVetDoctor = () => {
         <p className="mt-6 text-gray-500 text-center">
           Already have an account?{" "}
           <span
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/")}
             className="text-orange-500 font-semibold cursor-pointer hover:underline"
           >
             Login

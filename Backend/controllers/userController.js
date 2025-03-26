@@ -35,7 +35,7 @@ const upload = multer({ storage: storage }).fields([
 // ✅ Register User
 const registerUser = async (req, res) => {
   try {
-    const { name, email, phoneNumber, location, password  } = req.body;
+    const { name, email, phoneNumber, location, password, address  } = req.body;
     const userType = "user";
 
     const existingUser = await User.findOne({ phoneNumber });
@@ -60,6 +60,7 @@ const registerUser = async (req, res) => {
       phoneNumber,
       location,
       userType,
+      address,
       password: hashedPassword,
       username,
     });

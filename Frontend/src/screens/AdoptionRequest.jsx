@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import { FaPaw } from "react-icons/fa";
 
 const AdoptionRequestPage = () => {
   const navigate = useNavigate();
@@ -13,13 +14,28 @@ const AdoptionRequestPage = () => {
 
   const [formData, setFormData] = useState({
     userName: "",
-    userAge: "",
+    address: "",
     phoneNumber: "",
     hasOtherPets: false,
     adoptionReason: "",
     idProof: null,
   });
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userId = sessionStorage.getItem("userId");
 
+      const response = await axios.get(
+        `http://localhost:5000/api/users/${userId}`
+      );
+      setFormData(formData => ({
+        ...formData,
+        userName: response.data.name,
+        phoneNumber: response.data.phoneNumber,
+        address: response.data.address
+      }))
+    }
+    fetchUser();
+  }, [])
   useEffect(() => {
     if (!petId) {
       alert("Invalid request!");
@@ -48,7 +64,7 @@ const AdoptionRequestPage = () => {
     const userId = sessionStorage.getItem("userId");
     if (!userId) {
       alert("Please log in to continue.");
-      navigate("/login");
+      navigate("/");
       return;
     }
 
@@ -56,7 +72,7 @@ const AdoptionRequestPage = () => {
     formDataToSend.append("adoptionPostId", petId);
     formDataToSend.append("userId", userId);
     formDataToSend.append("userName", formData.userName);
-    formDataToSend.append("userAge", formData.userAge);
+    formDataToSend.append("address", formData.address);
     formDataToSend.append("phoneNumber", formData.phoneNumber);
     formDataToSend.append("hasOtherPets", formData.hasOtherPets);
     formDataToSend.append("adoptionReason", formData.adoptionReason);
@@ -82,11 +98,18 @@ const AdoptionRequestPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 flex justify-center items-center">
-      <Navbar/>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-200 p-6 flex justify-center items-center">
+      <Navbar />
       <div className="bg-white shadow-lg rounded-xl p-6 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-4">Adoption Request</h2>
-
+        <div className="text-center mb-10">
+          <div className="flex justify-center items-center gap-3 mb-2">
+            <FaPaw className="text-4xl text-orange-500" />
+            <h2 className="text-2xl font-bold text-center mb-4">
+              Adoption Request
+            </h2>
+          </div>
+          {/* <div className="w-24 h-1 bg-gradient-to-r from-orange-400 to-orange-600 mx-auto mt-2 rounded-full" /> */}
+        </div>
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
@@ -99,11 +122,11 @@ const AdoptionRequestPage = () => {
             className="w-full p-2 border rounded-md"
           />
           <input
-            type="number"
-            name="userAge"
-            value={formData.userAge}
+            type="text"
+            name="address"
+            value={formData.address}
             onChange={handleChange}
-            placeholder="Your Age"
+            placeholder="Your Address"
             required
             className="w-full p-2 border rounded-md"
           />

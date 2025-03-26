@@ -69,7 +69,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-white">
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-50 to-blue-200">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center">
         <img
           src="/Logo.jpg"
