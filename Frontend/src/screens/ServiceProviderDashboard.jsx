@@ -42,7 +42,10 @@ const ServiceProviderDashboard = () => {
         {/* Page Renderer */}
         {activePage === "addService" && <AddService userId={userId} />}
         {activePage === "viewServices" && <ViewServices userId={userId} onClick={() => setActivePage("addService")} />}
-        {activePage === "viewBookings" && <ViewBookings userId={userId} />}
+        {activePage === "viewGrooming" && <ViewBookings userId={userId} type='Grooming' />}
+        {activePage === "viewBoarding" && <ViewBookings userId={userId} type='Boarding' />}
+        {activePage === "viewWalking" && <ViewBookings userId={userId} type='Walking' />}
+        {activePage === "viewTraining" && <ViewBookings userId={userId} type='Training' />}
       </div>
     </div>
   );

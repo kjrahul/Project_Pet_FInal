@@ -20,10 +20,10 @@ const upload = multer({ storage: storage });
 // Add Service
 const addService = async (req, res) => {
   try {
-    const { serviceName, description, price, userId } = req.body;
+    const { serviceName, description, price, userId, serviceType } = req.body;
 
     // ✅ Validation
-    if (!serviceName || !description || !price || !req.file || !userId) {
+    if (!serviceName || !description || !price || !req.file || !userId || !serviceType) {
       return res.status(400).json({ message: "All fields are required, including image and user ID" });
     }
 
@@ -34,6 +34,7 @@ const addService = async (req, res) => {
     const newService = new Service({
       serviceName,
       description,
+      serviceType,
       price,
       image: req.file.path,
       serviceProvider: objectId, // ✅ Save as ObjectId
@@ -79,7 +80,8 @@ const deleteService = async (req, res) => {
 // View Bookings for a Service Provider
 const viewBookings = async (req, res) => {
   try {
-    const { userId } = req.query;
+    const { userId, type } = req.query;
+    console.log(type);
 
     if (!userId) {
       return res.status(400).json({ message: "User ID is required" });
@@ -93,9 +95,10 @@ const viewBookings = async (req, res) => {
       })
       .populate({
         path: "serviceId",
-        match: { serviceProvider: userId }, // ✅ Filter by provider ID
-        select: "serviceName price",
+        match: { serviceProvider: userId, serviceType: type }, // ✅ Filter by provider ID
+        select: "serviceName price ",
       });
+    console.log(bookings);
 
     // ✅ Remove null results (if serviceId doesn't match)
     const filteredBookings = bookings.filter(
@@ -162,7 +165,7 @@ const getServiceProviderDetails = async (req, res) => {
     }
 
     res.status(200).json(serviceProvider);
-  } catch (error) { 
+  } catch (error) {
     console.error("❌ Error fetching service provider details:", error);
     res.status(500).json({ message: "Failed to fetch service provider details" });
   }

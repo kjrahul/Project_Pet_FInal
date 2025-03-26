@@ -9,8 +9,8 @@ import {
   FaUserCircle,
 } from "react-icons/fa";
 import { MdPhone, MdEmail } from "react-icons/md";
-
-
+import { GiSittingDog, GiDogHouse, GiJumpingDog } from "react-icons/gi";
+import { ImScissors } from "react-icons/im";
 const Sidebar = ({ activePage, setActivePage, serviceProvider }) => {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
@@ -22,7 +22,10 @@ const Sidebar = ({ activePage, setActivePage, serviceProvider }) => {
 
   const menuItems = [
     { label: "Services", icon: <FaList />, page: "viewServices" },
-    { label: "Bookings", icon: <FaClipboard />, page: "viewBookings" },
+    { label: "Grooming", icon: <ImScissors />, page: "viewGrooming" },
+    { label: "Boarding", icon: <GiDogHouse />, page: "viewBoarding" },
+    { label: "Walking", icon: <GiSittingDog />, page: "viewWalking" },
+    { label: "Training", icon: <GiJumpingDog />, page: "viewTraining" },
   ];
 
   return (

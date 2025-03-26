@@ -36,61 +36,63 @@ const getProfileDetails = async (req, res) => {
 
     // ✅ Fetch Accepted Service Provider Bookings
     let acceptedServiceProviderBookings = [];
-try {
-  const serviceBookings = await ServiceBooking.find({
-    userId,
-    status: "Approved",
-  })
-    .populate({
-      path: "serviceId",
-      select: "serviceName price serviceProvider",
-      populate: {
-        path: "serviceProvider",
-        model: "ServiceProvider",
-        select: "orgName orgLocation orgAddress phoneNumber experience qualification",
-      },
-    })
-    .sort({ createdAt: -1 });
+    try {
+      const serviceBookings = await ServiceBooking.find({
+        userId,
+        // status: "Approved",
+      })
+        .populate({
+          path: "serviceId",
+          select: "serviceName price serviceProvider serviceType durationDays",
+          populate: {
+            path: "serviceProvider",
+            model: "ServiceProvider",
+            select: "orgName orgLocation orgAddress phoneNumber experience qualification",
+          },
+        })
+        .sort({ createdAt: -1 });
 
-  acceptedServiceProviderBookings = serviceBookings.map((booking) => ({
-    serviceName: booking?.serviceId?.serviceName || "N/A",
-    price: booking?.serviceId?.price || "N/A",
-    bookingDate: booking?.createdAt,
-    serviceProvider: {
-      name: booking?.serviceId?.serviceProvider?.orgName || "N/A",
-      location: booking?.serviceId?.serviceProvider?.orgLocation || "N/A",
-      address: booking?.serviceId?.serviceProvider?.orgAddress || "N/A", // ✅ Added orgAddress
-      contact: booking?.serviceId?.serviceProvider?.phoneNumber || "N/A",
-      qualification: booking?.serviceId?.serviceProvider?.qualification || "N/A",
-      experience: booking?.serviceId?.serviceProvider?.experience || "N/A",
-    },
-  }));
+      acceptedServiceProviderBookings = serviceBookings.map((booking) => ({
+        serviceName: booking?.serviceId?.serviceName || "N/A",
+        serviceType: booking?.serviceId?.serviceType || "N/A",
+        durationDays: booking?.serviceId?.durationDays,
+        price: booking?.serviceId?.price || "N/A",
+        bookingDate: booking?.createdAt,
+        serviceProvider: {
+          name: booking?.serviceId?.serviceProvider?.orgName || "N/A",
+          location: booking?.serviceId?.serviceProvider?.orgLocation || "N/A",
+          address: booking?.serviceId?.serviceProvider?.orgAddress || "N/A", // ✅ Added orgAddress
+          contact: booking?.serviceId?.serviceProvider?.phoneNumber || "N/A",
+          qualification: booking?.serviceId?.serviceProvider?.qualification || "N/A",
+          experience: booking?.serviceId?.serviceProvider?.experience || "N/A",
+        },
+      }));
 
-  console.log(`✅ Fetched ${acceptedServiceProviderBookings.length} accepted service booking(s)`);
-} catch (error) {
-  console.error("❌ Error fetching accepted service provider bookings:", error);
-}
+      console.log(`✅ Fetched ${acceptedServiceProviderBookings.length} accepted service booking(s)`);
+    } catch (error) {
+      console.error("❌ Error fetching accepted service provider bookings:", error);
+    }
 
     // ✅ Fetch User's Own Service Bookings
     // ✅ Fetch User's Own Service Bookings
-let userServiceBookings = [];
-try {
-  userServiceBookings = await ServiceBooking.find({ userId })
-    .populate({
-      path: "serviceId",
-      select: "serviceName price serviceProvider",
-      populate: {
-        path: "serviceProvider",
-        model: "ServiceProvider",
-        select: "orgName orgAddress orgLocation",
-      },
-    })
-    .sort({ createdAt: -1 });
+    let userServiceBookings = [];
+    try {
+      userServiceBookings = await ServiceBooking.find({ userId })
+        .populate({
+          path: "serviceId",
+          select: "serviceName price serviceProvider serviceType durationDays",
+          populate: {
+            path: "serviceProvider",
+            model: "ServiceProvider",
+            select: "orgName orgAddress orgLocation",
+          },
+        })
+        .sort({ createdAt: -1 });
 
-  console.log(`✅ Fetched ${userServiceBookings.length} user service booking(s)`);
-} catch (error) {
-  console.error("❌ Error fetching user service bookings:", error);
-}
+      console.log(`✅ Fetched ${userServiceBookings.length} user service booking(s)`);
+    } catch (error) {
+      console.error("❌ Error fetching user service bookings:", error);
+    }
 
 
     // ✅ Fetch Accepted Vet Bookings

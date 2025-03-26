@@ -5,10 +5,10 @@ const bookService = async (req, res) => {
   try {
     console.log("Request Body:", req.body); // ✅ Log request body
 
-    const { userId, serviceId, petType, ownerName, phoneNumber, location, modeOfService, timeSlot  ,address} = req.body;
+    const { userId, serviceId, petType, ownerName, phoneNumber, location, modeOfService, timeSlot  ,address, durationDays} = req.body;
 
     // ✅ Check for missing fields
-    if (!userId || !serviceId || !petType || !modeOfService || !timeSlot) {
+    if (!userId || !serviceId || !petType || !modeOfService || !timeSlot ) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -20,7 +20,9 @@ const bookService = async (req, res) => {
       phoneNumber,
       location,
       modeOfService,
-      timeSlot,address
+      durationDays,
+      timeSlot,
+      address
     });
 
     await newBooking.save();

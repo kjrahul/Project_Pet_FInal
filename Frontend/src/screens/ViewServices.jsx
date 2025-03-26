@@ -77,6 +77,7 @@ const ViewServices = (props) => {
             <tr className="bg-blue-50 text-gray-700">
               <th className="border p-3">Service Name</th>
               <th className="border p-3">Description</th>
+              <th className="border p-3">Type</th>
               <th className="border p-3">Price</th>
               <th className="border p-3">Image</th>
               <th className="border p-3">Actions</th>
@@ -87,6 +88,7 @@ const ViewServices = (props) => {
               <tr key={service._id} className="text-center border-b hover:bg-gray-50 transition">
                 <td className="p-3">{service.serviceName}</td>
                 <td className="p-3">{service.description}</td>
+                <td className="p-3">{service.serviceType}</td>
                 <td className="p-3">₹{service.price}</td>
                 <td className="p-3">
                   <img
