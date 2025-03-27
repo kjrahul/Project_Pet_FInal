@@ -8,7 +8,9 @@ const ServiceProvidersPage = () => {
   const navigate = useNavigate();
   const [providers, setProviders] = useState([]);
   const [location, setLocation] = useState("");
-  const [locations, setLocations] = useState([]); // Store unique locations
+  const [serviceType, setServiceType] = useState(""); // Track selected service type
+  const [locations, setLocations] = useState([]);
+  const serviceTypes = ["Grooming", "Boarding", "Walking", "Training"]; // Track unique service types
 
   // ✅ Fetch approved providers from the backend
   useEffect(() => {
@@ -20,6 +22,8 @@ const ServiceProvidersPage = () => {
         // Extract unique locations
         const uniqueLocations = [...new Set(response.data.map((provider) => provider.orgLocation))];
         setLocations(uniqueLocations);
+
+    
       } catch (error) {
         console.error("Failed to fetch service providers:", error);
       }
@@ -32,8 +36,12 @@ const ServiceProvidersPage = () => {
     navigate(`/services?id=${provider._id}`);
   };
 
-  // ✅ Filter providers based on location
-  const filteredProviders = providers.filter((provider) => location === "" || provider.orgLocation === location);
+  // ✅ Filter providers based on location and service type
+  const filteredProviders = providers.filter((provider) => {
+    const matchesLocation = location === "" || provider.orgLocation === location;
+    const matchesService = serviceType === "" || (provider.servicesProvided || []).includes(serviceType);
+    return matchesLocation && matchesService;
+  });
 
   // ✅ Generate Dummy Rating (1 to 5)
   const getRating = () => Math.floor(Math.random() * 3) + 3;
@@ -80,6 +88,22 @@ const ServiceProvidersPage = () => {
             {locations.map((loc, index) => (
               <option key={index} value={loc}>
                 {loc}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="block mb-2 font-medium text-gray-600">Filter by Service Type</label>
+          <select
+            value={serviceType}
+            onChange={(e) => setServiceType(e.target.value)}
+            className="w-48 p-2 border rounded-md text-gray-700 focus:outline-none focus:border-orange-400"
+          >
+            <option value="">All</option>
+            {serviceTypes.map((service, index) => (
+              <option key={index} value={service}>
+                {service}
               </option>
             ))}
           </select>

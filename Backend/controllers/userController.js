@@ -6,6 +6,7 @@ const User = require("../models/User");
 const Login = require("../models/Login");
 const ServiceProvider = require("../models/ServiceProvider");
 const VetDoctor = require("../models/VetDoctor");
+const Service = require("../models/Service");
 
 // ✅ Generate Username Function
 const generateUsername = (name, phoneNumber, userType) => {
@@ -35,7 +36,7 @@ const upload = multer({ storage: storage }).fields([
 // ✅ Register User
 const registerUser = async (req, res) => {
   try {
-    const { name, email, phoneNumber, location, password, address  } = req.body;
+    const { name, email, phoneNumber, location, password, address } = req.body;
     const userType = "user";
 
     const existingUser = await User.findOne({ phoneNumber });
@@ -88,12 +89,12 @@ const registerUser = async (req, res) => {
 // ✅ Register Service Provider
 const registerServiceProvider = async (req, res) => {
   try {
-    const { orgName, orgLocation, orgAddress ,orgRegId, email, phoneNumber, password } = req.body;
+    const { orgName, orgLocation, orgAddress, orgRegId, email, phoneNumber, password } = req.body;
 
     // ✅ Ensure logo is uploaded
     if (!orgName || !orgLocation || !orgRegId || !email || !phoneNumber || !password || !req.files["logo"]) {
       console.log(req.files["logo"]);
-      
+
       return res.status(400).json({ message: "All fields are required including logo" });
     }
 
@@ -151,7 +152,7 @@ const registerServiceProvider = async (req, res) => {
 // ✅ Register Veterinary Doctor
 const registerVetDoctor = async (req, res) => {
   try {
-    const { name, email, password, qualification, experience, phoneNumber , location , address} =
+    const { name, email, password, qualification, experience, phoneNumber, location, address } =
       req.body;
 
     if (
@@ -276,7 +277,28 @@ const getUser = async (req, res) => {
 const getApprovedServiceProviders = async (req, res) => {
   try {
     const approvedProviders = await ServiceProvider.find({ status: true });
-    res.status(200).json(approvedProviders);
+
+    const result = await Service.aggregate([
+      {
+        $group: {
+          _id: "$serviceProvider", // group by provider
+          serviceTypes: { $addToSet: "$serviceType" } // get unique service types
+        }
+      }
+    ]);
+
+    const data = approvedProviders.map(provider => {
+      const matchingService = result.find(service =>
+        service._id.toString() === provider._id.toString()
+      );
+      return {
+        ...provider.toObject(),
+        servicesProvided: matchingService?.serviceTypes
+      };
+    });
+    // console.log(data);
+
+    res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

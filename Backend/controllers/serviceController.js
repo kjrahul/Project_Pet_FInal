@@ -29,11 +29,12 @@ const addService = async (req, res) => {
 
     // ✅ Convert userId to ObjectId
     const objectId = new mongoose.Types.ObjectId(userId);
+    const descriptionArray = description.split(",").map(spec => spec.trim()); // Convert to array
 
     // ✅ Save new service
     const newService = new Service({
       serviceName,
-      description,
+      description: descriptionArray,
       serviceType,
       price,
       image: req.file.path,

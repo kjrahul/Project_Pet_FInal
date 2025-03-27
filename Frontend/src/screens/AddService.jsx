@@ -5,10 +5,10 @@ const AddService = () => {
   const [userId, setUserId] = useState(null);
   const [serviceName, setServiceName] = useState("");
   const [serviceType, setServiceType] = useState("Grooming");
-  const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
-
+  const [specifications, setSpecifications] = useState([]);
+  const [spec, setSpec] = useState("");
   // ✅ Load userId from session storage on component load
   useEffect(() => {
     const storedUserId = sessionStorage.getItem("userId"); // ✅ Get from session storage
@@ -18,18 +18,24 @@ const AddService = () => {
   }, []);
 
   console.log(userId);
-
+  // Handle adding a specification
+  const handleAddSpec = () => {
+    if (spec.trim()) {
+      setSpecifications([...specifications, spec.trim()]);
+      setSpec("");
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!serviceName || !serviceType||!description || !price || !image || !userId) {
+    if (!serviceName || !serviceType || !specifications || !price || !image || !userId) {
       alert("All fields are required.");
       return;
     }
 
     const formData = new FormData();
     formData.append("serviceName", serviceName);
-    formData.append("description", description);
+    formData.append("description", specifications); // Send as JSON string
     formData.append("serviceType", serviceType);
     formData.append("price", price);
     formData.append("image", image);
@@ -48,7 +54,7 @@ const AddService = () => {
       console.log(response.data);
       alert("Service added successfully!");
       setServiceName("");
-      setDescription("");
+      setSpecifications([]);
       setPrice("");
       setImage(null);
     } catch (error) {
@@ -109,15 +115,31 @@ const AddService = () => {
           </div>
         </div>
 
-        {/* Description */}
-        <textarea
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="w-full border p-2  p-3 rounded-lg focus:outline-none focus:ring-2  md:col-span-2"
-          rows={4}
-          required
-        ></textarea>
+        <div className="md:col-span-2">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Specifications</label>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="e.g. Blow dry Nail clipping"
+              value={spec}
+              onChange={(e) => setSpec(e.target.value)}
+              className="flex-1 border p-2 rounded"
+            />
+            <button
+              type="button"
+              onClick={handleAddSpec}
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+            >
+              Add
+            </button>
+          </div>
+          <ul className="mt-2 list-disc list-inside text-sm text-gray-600">
+            {specifications.map((s, index) => (
+              <li key={index}>{s}</li>
+            ))}
+          </ul>
+        </div>
+
 
         {/* Image Upload */}
         <div className="md:col-span-2">

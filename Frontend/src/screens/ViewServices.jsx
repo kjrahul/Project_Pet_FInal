@@ -87,7 +87,7 @@ const ViewServices = (props) => {
             {services.map((service) => (
               <tr key={service._id} className="text-center border-b hover:bg-gray-50 transition">
                 <td className="p-3">{service.serviceName}</td>
-                <td className="p-3">{service.description}</td>
+                <td className="p-3">{service.description?.join(", ")}</td>
                 <td className="p-3">{service.serviceType}</td>
                 <td className="p-3">₹{service.price}</td>
                 <td className="p-3">

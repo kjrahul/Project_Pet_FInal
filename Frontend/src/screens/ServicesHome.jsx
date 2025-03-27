@@ -231,7 +231,13 @@ const ServicesPage = () => {
               onError={(e) => (e.currentTarget.style.display = "none")}
             />
             <h3 className="text-lg font-semibold">{service.serviceName}</h3>
-            <p className="text-sm text-gray-600">{service.description}</p>
+            <ul className="list-disc list-inside mt-2 text-gray-600 text-sm">
+                  {service.description.map((desc, index) => (
+                    <li key={index} className="truncate">
+                      {desc.replace(/^"|"$/g, '')}
+                    </li>
+                  ))}
+                </ul>
             <p className="font-bold text-green-500">{service.serviceType}</p>
             <p className="font-bold text-orange-500">₹{service.price}</p>
 
@@ -268,7 +274,7 @@ const ServicesPage = () => {
               onChange={handleInputChange}
               className="w-full p-2 border rounded-md mb-2"
             >
-              <option value="">Select Mode</option>
+              <option value="">{selectedService.serviceType === "Boarding"?"Pickup":"Select Mode"}</option>
               <option value="In Home">In Home</option>
               <option value="In Pet Shop">In Pet Shop</option>
             </select>
