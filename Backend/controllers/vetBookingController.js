@@ -3,7 +3,7 @@ const VetBooking = require("../models/VetBooking");
 // Book a Vet
 const bookVet = async (req, res) => {
   try {
-    const { vetId, userId, petType, ownerName, phoneNumber, location, petDisease, vaccinated, timeOfBooking } = req.body;
+    const { vetId, userId, petType, ownerName, phoneNumber, location, petDisease, vaccinated, timeOfBooking, address } = req.body;
 
     if (!userId) {
       return res.status(400).json({ message: "User ID is required." });
@@ -16,6 +16,7 @@ const bookVet = async (req, res) => {
       ownerName,
       phoneNumber,
       location,
+      address,
       petDisease,
       vaccinated,
       timeOfBooking

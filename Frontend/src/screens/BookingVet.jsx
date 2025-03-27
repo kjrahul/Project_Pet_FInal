@@ -21,6 +21,7 @@ const BookingPage = () => {
     petDisease: "",
     vaccinated: false,
     timeOfBooking: "",
+    address:"",
   });
 
   const [loading, setLoading] = useState(false);
@@ -60,6 +61,7 @@ const BookingPage = () => {
         petDisease: "",
         vaccinated: false,
         timeOfBooking: "",
+        address:"",
       });
     } catch (error) {
       setMessage(error.response?.data?.message || "An error occurred");
@@ -76,7 +78,8 @@ const BookingPage = () => {
         ...formData,
         ownerName: response.data.name,
         phoneNumber: response.data.phoneNumber,
-        location: response.data.location
+        location: response.data.location,
+        address: response.data.address
       }))
     }
     const fetchVetDoctor = async () => {
@@ -205,6 +208,17 @@ const BookingPage = () => {
                 type="text"
                 name="location"
                 value={formData.location}
+                onChange={handleChange}
+                required
+                className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-orange-400"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700">Address</label>
+              <input
+                type="text"
+                name="address"
+                value={formData.address}
                 onChange={handleChange}
                 required
                 className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-orange-400"

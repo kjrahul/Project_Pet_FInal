@@ -147,6 +147,8 @@ const VetDashboard = () => {
                 <th className="p-3 text-left">Pet Type</th>
                 <th className="p-3 text-left">Owner</th>
                 <th className="p-3 text-left">Phone</th>
+                <th className="p-3 text-left">Address</th>
+                <th className="p-3 text-left">Location</th>
                 <th className="p-3 text-left">Disease</th>
                 <th className="p-3 text-left">Time</th>
                 <th className="p-3 text-left">Vaccinated</th>
@@ -161,6 +163,8 @@ const VetDashboard = () => {
                   <td className="p-3">{booking.petType}</td>
                   <td className="p-3">{booking.ownerName}</td>
                   <td className="p-3">{booking.phoneNumber}</td>
+                  <td className="p-3">{booking.address}</td>
+                  <td className="p-3">{booking.location}</td>
                   <td className="p-3">{booking.petDisease}</td>
                   <td className="p-3">
                     {new Date(booking.timeOfBooking).toLocaleString()}

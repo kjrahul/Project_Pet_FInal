@@ -15,6 +15,7 @@ const vetBookingSchema = new mongoose.Schema({
   ownerName: { type: String, required: true },
   phoneNumber: { type: String, required: true },
   location: { type: String, required: true },
+  address: { type: String, required: true },// ✅ Added address for Home Visit
   petDisease: { type: String, required: true },
   vaccinated: { type: Boolean, required: true },
   timeOfBooking: { type: String, required: true },
