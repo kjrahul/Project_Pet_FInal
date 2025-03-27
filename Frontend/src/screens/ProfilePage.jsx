@@ -62,8 +62,8 @@ const ProfilePage = () => {
               <li
                 key={tab.key}
                 className={`cursor-pointer p-2 rounded-md text-lg font-medium ${selectedTab === tab.key
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 hover:bg-gray-300"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 hover:bg-gray-300"
                   }`}
                 onClick={() => setSelectedTab(tab.key)}
               >
@@ -95,6 +95,19 @@ const ProfilePage = () => {
                         {new Date(purchase.dateOfPurchase).toLocaleDateString()}
                       </p>
                       <p className="font-bold">₹{purchase.totalPrice}</p>
+
+                      <p><strong>Status:</strong>
+                        <span className={`p-3 font-semibold ${purchase.orderStatus === "Pending"
+                            ? "text-yellow-600"
+                            : purchase.orderStatus === "Packed"
+                              ? "text-blue-600"
+                              : purchase.orderStatus === "Dispatched"
+                                ? "text-green-600"
+                                : "text-gray-600"
+                          }`}>
+                          {purchase.orderStatus}
+                        </span>
+                      </p>
                     </div>
                   ))
                 ) : (
@@ -119,8 +132,8 @@ const ProfilePage = () => {
                           {booking.status}
                         </span>
                       </p>
-                      {booking?.serviceId?.serviceType==='Boarding'&&
-                      <p><strong>Duration:</strong> {booking.durationDays} Day(s)</p>}
+                      {booking?.serviceId?.serviceType === 'Boarding' &&
+                        <p><strong>Duration:</strong> {booking.durationDays} Day(s)</p>}
                       <p><strong>Date:</strong> {new Date(booking.timeSlot).toLocaleString()}</p>
                     </div>
                   ))

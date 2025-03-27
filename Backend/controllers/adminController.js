@@ -3,7 +3,7 @@ const Adoption = require("../models/Adoption");
 const ServiceProvider = require("../models/ServiceProvider");
 const VetDoctor = require("../models/VetDoctor");
 const User = require("../models/User");
-const Order  = require("../models/Purchase")
+const Order = require("../models/Purchase")
 const AdoptionRequest = require("../models/AdoptionRequest");
 
 // Configure Multer for Image Uploads
@@ -70,38 +70,38 @@ const getAllServiceProviders = async (req, res) => {
 
 // Get Pending Service Providers (status = false)
 const getPendingServiceProviders = async (req, res) => {
-    try {
-      const pendingProviders = await ServiceProvider.find({ status: false });
-      res.status(200).json(pendingProviders);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  };
+  try {
+    const pendingProviders = await ServiceProvider.find({ status: false });
+    res.status(200).json(pendingProviders);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 
-  // Accept Service Provider (Update status to true)
+// Accept Service Provider (Update status to true)
 const acceptServiceProvider = async (req, res) => {
-    try {
-      const { id } = req.params; // Get service provider ID from URL
-  
-      // Find the service provider by ID
-      const serviceProvider = await ServiceProvider.findById(id);
-      if (!serviceProvider) {
-        return res.status(404).json({ message: "Service provider not found" });
-      }
-  
-      // Update status to true
-      serviceProvider.status = true;
-      await serviceProvider.save();
-  
-      res.status(200).json({ message: "Service provider accepted successfully" });
-    } catch (error) {
-      res.status(500).json({ message: error.message });
+  try {
+    const { id } = req.params; // Get service provider ID from URL
+
+    // Find the service provider by ID
+    const serviceProvider = await ServiceProvider.findById(id);
+    if (!serviceProvider) {
+      return res.status(404).json({ message: "Service provider not found" });
     }
-  };
+
+    // Update status to true
+    serviceProvider.status = true;
+    await serviceProvider.save();
+
+    res.status(200).json({ message: "Service provider accepted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 
-  // ✅ Get Pending Vets (status = false)
+// ✅ Get Pending Vets (status = false)
 const getPendingVets = async (req, res) => {
   try {
     const pendingVets = await VetDoctor.find({ status: false });
@@ -165,7 +165,7 @@ const getAdminStats = async (req, res) => {
       approvedServiceProviders,
       totalVets,
       approvedVets,
-      
+
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -181,6 +181,28 @@ const getOrders = async (req, res) => {
   }
 };
 
+const updateOrderStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    console.log(id, status);
+
+    const updatedOrder = await Order.findByIdAndUpdate(
+      id,
+      { orderStatus:status },
+      { new: true }
+    );
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.status(200).json(updatedOrder);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+
+  }
+};
 
 const acceptAdoptionRequest = async (req, res) => {
   try {
@@ -201,5 +223,7 @@ const acceptAdoptionRequest = async (req, res) => {
   }
 };
 
-module.exports = { createAdoptionPost, upload , getPendingServiceProviders , acceptServiceProvider ,getPendingVets , acceptVet
-  , getAdminStats ,getOrders, acceptAdoptionRequest ,getAllServiceProviders ,getAllVets , getAllUsers}  ;
+module.exports = {
+  createAdoptionPost, upload, getPendingServiceProviders, acceptServiceProvider, getPendingVets, acceptVet
+  , getAdminStats, getOrders, acceptAdoptionRequest, getAllServiceProviders, getAllVets, getAllUsers, updateOrderStatus
+};

@@ -1,6 +1,7 @@
 const express = require("express");
 const { createAdoptionPost, upload ,getPendingServiceProviders, acceptServiceProvider,getPendingVets, acceptVet , getAdminStats 
-    ,getOrders , acceptAdoptionRequest ,getAllServiceProviders, getAllVets , getAllUsers} = require("../controllers/adminController");
+    ,getOrders , acceptAdoptionRequest ,getAllServiceProviders, getAllVets , getAllUsers,
+    updateOrderStatus} = require("../controllers/adminController");
 
 const router = express.Router();
 
@@ -18,6 +19,7 @@ router.put("/accept-vet/:id", acceptVet);
 
 router.get("/stats", getAdminStats);
 router.get("/orders", getOrders);
+router.patch("/orders/:id", updateOrderStatus);
 router.put("/accept-adoption-request/:id", acceptAdoptionRequest);
 
 module.exports = router;

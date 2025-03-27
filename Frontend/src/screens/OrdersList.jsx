@@ -4,6 +4,20 @@ import axios from "axios";
 const OrdersList = () => {
   const [orders, setOrders] = useState([]);
 
+  const updateOrderStatus = async (orderId, newStatus) => {
+    try {
+      await axios.patch(`http://localhost:5000/api/admin/orders/${orderId}`, {
+        status: newStatus,
+      });
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order._id === orderId ? { ...order, orderStatus: newStatus } : order
+        )
+      );
+    } catch (error) {
+      console.error("Failed to update order status:", error);
+    }
+  };
   // ✅ Fetch Orders
   const fetchOrders = async () => {
     try {
@@ -43,6 +57,8 @@ const OrdersList = () => {
                 <th className="border p-2">Quantity</th>
                 <th className="border p-2">Total Price (₹)</th>
                 <th className="border p-2">Date of Purchase</th>
+                <th className="border p-2">Status</th>
+                <th className="border p-2">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -65,6 +81,33 @@ const OrdersList = () => {
                       hour: '2-digit',
                       minute: '2-digit',
                     })}
+                  </td>
+                  <td
+                    className={`p-3 font-semibold ${order.orderStatus === "Pending"
+                        ? "text-yellow-600"
+                        : order.orderStatus === "Packed"
+                          ? "text-blue-600"
+                          : order.orderStatus === "Dispatched"
+                            ? "text-green-600"
+                            : "text-gray-600"
+                      }`}
+                  >
+                    {order.orderStatus}
+                  </td>
+
+                  <td className="p-3 gap-2">
+                    <button
+                      onClick={() => updateOrderStatus(order._id, "Packed")}
+                      className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition"
+                    >
+                      Packed
+                    </button>
+                    <button
+                      onClick={() => updateOrderStatus(order._id, "Dispatched")}
+                      className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600 transition"
+                    >
+                      Dispatched
+                    </button>
                   </td>
                 </tr>
               ))}

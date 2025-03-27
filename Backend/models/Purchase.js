@@ -17,6 +17,8 @@ const purchaseSchema = new mongoose.Schema({
     address: { type: String, required: true },
   },
   dateOfPurchase: { type: Date, default: Date.now }, // ✅ Purchase date
+  orderStatus: { type: String, default: "Pending" }
+
 });
 
 const Purchase = mongoose.model("Purchase", purchaseSchema);
