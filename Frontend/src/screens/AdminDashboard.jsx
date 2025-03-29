@@ -30,7 +30,7 @@ const AdminDashboard = () => {
           <AdoptionAdmin onClick={(newVal) => setActivePage(newVal)} />
         )}
         {activePage === "admin-pro" && (
-          <AdminProducts onAdd={() => setActivePage("addPetAdoption")} />
+          <AdminProducts onAdd={() => setActivePage("addProduct")} />
         )}
         {activePage === "vetprovider" && <VetProviders />}
         {activePage === "orderlist" && <OrdersList />}

@@ -120,7 +120,7 @@ const AddService = () => {
           <div className="flex gap-2">
             <input
               type="text"
-              placeholder="e.g. Blow dry Nail clipping"
+              placeholder="describe the service"
               value={spec}
               onChange={(e) => setSpec(e.target.value)}
               className="flex-1 border p-2 rounded"
