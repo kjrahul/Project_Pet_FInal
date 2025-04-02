@@ -11,7 +11,8 @@ const serviceProviderSchema = new mongoose.Schema({
   userType: { type: String, default: "SP" },
   password: { type: String, required: true },
   username: { type: String, unique: true },
-  logo: { type: String } // ✅ Added field for storing logo path
+  logo: { type: String, required: true }, // ✅ Added field for storing logo path
+  license: { type: String, required: true } // ✅ Added field for storing logo path
 });
 
 module.exports = mongoose.model("ServiceProvider", serviceProviderSchema);

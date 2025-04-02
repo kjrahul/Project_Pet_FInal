@@ -9,15 +9,13 @@ const AdoptionPage = () => {
   const [adoptions, setAdoptions] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch adoption data from API
   useEffect(() => {
     const fetchAdoptions = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/adoptions/get-adoptions");
-        // ✅ Fix specifications parsing issue
         const formattedData = response.data.map((item) => ({
           ...item,
-          specifications: JSON.parse(item.specifications || "[]"), // ✅ Handle stringified JSON
+          specifications: JSON.parse(item.specifications || "[]"),
         }));
         setAdoptions(formattedData);
       } catch (error) {
@@ -31,7 +29,7 @@ const AdoptionPage = () => {
   }, []);
 
   const handleInterested = (pet) => {
-    navigate(`/adoptionform?petId=${pet._id}`); // ✅ Pass petId as query parameter
+    navigate(`/adoptionform?petId=${pet._id}`);
   };
 
   if (loading) {
@@ -39,19 +37,16 @@ const AdoptionPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-200 p-6 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-200 p-6">
       <Navbar />
       <div className="text-center mb-10">
         <div className="flex justify-center items-center gap-3 mb-2">
           <FaPaw className="text-4xl text-orange-500" />
-          <h2 className="text-4xl font-extrabold text-gray-800">
-            Adoption
-          </h2>
+          <h2 className="text-4xl font-extrabold text-gray-800">Adoption</h2>
         </div>
         <div className="w-24 h-1 bg-gradient-to-r from-orange-400 to-orange-600 mx-auto mt-2 rounded-full" />
       </div>
 
-      {/* ✅ No Pets Available Message */}
       {adoptions.length === 0 ? (
         <div className="text-center text-gray-500 text-lg font-semibold mt-10">
           Currently no pets available for adoption.
@@ -61,19 +56,19 @@ const AdoptionPage = () => {
           {adoptions.map((pet) => (
             <div
               key={pet._id}
-              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-transform duration-300 border border-gray-200"
+              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-transform duration-300 border border-gray-200 flex flex-col"
             >
               {/* Image */}
-              <div className="w-full aspect-[1/1]">
+              <div className="w-full h-64">
                 <img
-                  src={`http://localhost:5000/${pet.image.replace(/\\/g, "/")}`} 
+                  src={`http://localhost:5000/${pet.image.replace(/\\/g, "/")}`}
                   alt={pet.petType}
                   className="w-full h-full object-cover"
                 />
               </div>
 
               {/* Pet Info */}
-              <div className="p-4">
+              <div className="p-4 flex-1">
                 <h3 className="text-lg font-semibold">{pet.petType}</h3>
                 <p className="text-sm text-gray-600">Age: {pet.petAge} years</p>
 
@@ -91,10 +86,26 @@ const AdoptionPage = () => {
                   Last Date: {new Date(pet.lastDate).toLocaleDateString()}
                 </p>
 
-                {/* Interested Button */}
+                {/* Link to Vaccination Certificate */}
+                {pet.vaccinationCertificate && (
+                  <div className="mt-2 text-center">
+                    <a
+                      href={`http://localhost:5000/${pet.vaccinationCertificate.replace(/\\/g, "/")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-orange-500 text-sm font-semibold hover:text-orange-600 transition"
+                    >
+                      View Vaccination Certificate
+                    </a>
+                  </div>
+                )}
+              </div>
+
+              {/* Interested Button */}
+              <div className="p-4 bg-gray-100 mt-2">
                 <button
                   onClick={() => handleInterested(pet)}
-                  className="mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-orange-600 transition w-full"
+                  className="w-full bg-orange-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-orange-600 transition"
                 >
                   Interested
                 </button>

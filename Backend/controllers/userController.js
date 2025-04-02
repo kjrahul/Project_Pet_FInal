@@ -13,13 +13,15 @@ const generateUsername = (name, phoneNumber, userType) => {
   return `${name.toLowerCase()}_${phoneNumber.slice(-4)}_${userType}`;
 };
 
-// ✅ Configure Multer for Certificate and Logo Upload
+// ✅ Configure Multer for Certificate, License, and Logo Upload
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     if (file.fieldname === "certificate") {
       cb(null, "uploads/certificates/");
     } else if (file.fieldname === "logo") {
       cb(null, "uploads/logos/"); // ✅ Store service provider logos
+    } else if (file.fieldname === "license") {
+      cb(null, "uploads/licenses/"); // ✅ Store service provider licenses
     }
   },
   filename: function (req, file, cb) {
@@ -27,10 +29,8 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage }).fields([
-  { name: "certificate", maxCount: 1 },
-  { name: "logo", maxCount: 1 },
-]);
+const upload = multer({ storage: storage });
+
 
 
 // ✅ Register User
@@ -86,17 +86,16 @@ const registerUser = async (req, res) => {
 };
 
 // ✅ Register Service Provider
-// ✅ Register Service Provider
 const registerServiceProvider = async (req, res) => {
   try {
     const { orgName, orgLocation, orgAddress, orgRegId, email, phoneNumber, password } = req.body;
 
-    // ✅ Ensure logo is uploaded
-    if (!orgName || !orgLocation || !orgRegId || !email || !phoneNumber || !password || !req.files["logo"]) {
-      console.log(req.files["logo"]);
-
-      return res.status(400).json({ message: "All fields are required including logo" });
+    // ✅ Ensure all required fields are present
+    if (!orgName || !orgLocation || !orgRegId || !email || !phoneNumber || !password || !req.files["logo"] || !req.files["license"]) {
+      console.log(req.files);
+      return res.status(400).json({ message: "All fields including logo, license, and certificate are required" });
     }
+    console.log(req.files);
 
     let username = `${orgName.toLowerCase()}_${phoneNumber.slice(-4)}_sp`;
     let counter = 1;
@@ -108,6 +107,7 @@ const registerServiceProvider = async (req, res) => {
     const spId = new mongoose.Types.ObjectId();
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // ✅ Create new Service Provider
     const newSP = new ServiceProvider({
       _id: spId,
       orgName,
@@ -121,9 +121,12 @@ const registerServiceProvider = async (req, res) => {
       password: hashedPassword,
       username,
       logo: req.files["logo"][0].path, // ✅ Store logo path
+      license: req.files["license"][0].path // ✅ Store license path
+      
     });
 
     await newSP.save();
+console.log(newSP);
 
     // ✅ Save login with the same ID
     const newLogin = new Login({
@@ -145,6 +148,7 @@ const registerServiceProvider = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 
 

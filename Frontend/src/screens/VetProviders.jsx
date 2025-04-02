@@ -43,8 +43,8 @@ const VetProviders = () => {
     viewType === "pending"
       ? pendingVets
       : viewType === "accepted"
-        ? acceptedVets
-        : [...pendingVets, ...acceptedVets];
+      ? acceptedVets
+      : [...pendingVets, ...acceptedVets];
 
   return (
     <div className="p-5 bg-white rounded-xl shadow-md">
@@ -72,7 +72,6 @@ const VetProviders = () => {
         </p>
       ) : (
         <div className="overflow-x-auto">
-
           <table className="min-w-full border-collapse text-sm">
             <thead>
               <tr className="bg-blue-50 text-gray-700">
@@ -83,6 +82,7 @@ const VetProviders = () => {
                 <th className="border p-3">Qualification</th>
                 <th className="border p-3">Experience</th>
                 <th className="border p-3">Phone Number</th>
+                <th className="border p-3">Address</th> {/* New Address Column */}
                 <th className="border p-3">Certificate</th>
                 {viewType === "pending" && <th className="border p-3">Actions</th>}
               </tr>
@@ -110,6 +110,9 @@ const VetProviders = () => {
                   <td className="border p-3">{vet.qualification}</td>
                   <td className="border p-3">{vet.experience} years</td>
                   <td className="border p-3">{vet.phoneNumber}</td>
+
+                  {/* ✅ Display Address */}
+                  <td className="border p-3">{vet.address}</td> {/* New Address Column */}
 
                   {/* ✅ Download Certificate */}
                   <td className="border p-3">

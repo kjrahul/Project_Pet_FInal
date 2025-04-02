@@ -6,24 +6,30 @@ const User = require("../models/User");
 const Order = require("../models/Purchase")
 const AdoptionRequest = require("../models/AdoptionRequest");
 
-// Configure Multer for Image Uploads
+// Configure Multer for Image and Certificate Uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/adoption-images/");
+    if (file.fieldname === "image") {
+      cb(null, "uploads/adoption-images/");
+    } else if (file.fieldname === "vaccinationCertificate") {
+      cb(null, "uploads/vaccination-certificates/");
+    }
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname);
   }
 });
+
+// Multer Middleware for Multiple File Uploads
 const upload = multer({ storage: storage });
 
-// Create Adoption Post
+
 const createAdoptionPost = async (req, res) => {
   try {
     const { petType, petAge, specifications, lastDate } = req.body;
 
-    if (!petType || !petAge || !specifications || !lastDate || !req.file) {
-      return res.status(400).json({ message: "All fields are required, including an image" });
+    if (!petType || !petAge || !specifications || !lastDate || !req.files.image || !req.files.vaccinationCertificate) {
+      return res.status(400).json({ message: "All fields are required, including an image and vaccination certificate" });
     }
 
     const specificationsArray = specifications.split(",").map(spec => spec.trim()); // Convert to array
@@ -32,7 +38,8 @@ const createAdoptionPost = async (req, res) => {
       petType,
       petAge,
       specifications: specificationsArray,
-      image: req.file.path, // Store file path
+      image: req.files.image[0].path, // Store pet image file path
+      vaccinationCertificate: req.files.vaccinationCertificate[0].path, // Store certificate file path
       lastDate,
       status: 0 // Initially 0
     });
@@ -44,6 +51,7 @@ const createAdoptionPost = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 const getAllUsers = async (req, res) => {
   try {

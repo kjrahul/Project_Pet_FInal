@@ -86,7 +86,7 @@ const AddService = () => {
 
         {/* Price */}
         <input
-          type="number"
+          type="text"
           placeholder="Price"
           value={price}
           onChange={(e) => setPrice(e.target.value)}

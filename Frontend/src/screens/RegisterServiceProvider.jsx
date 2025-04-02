@@ -14,10 +14,10 @@ const RegisterServiceProvider = () => {
     email: "",
     phoneNumber: "",
     password: "",
-    logo: null, // ✅ Add logo state
+    logo: null, 
+    license: null, // ✅ Added license state
   });
 
-  // ✅ Handle text field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -26,15 +26,14 @@ const RegisterServiceProvider = () => {
     }));
   };
 
-  // ✅ Handle file upload
   const handleFileChange = (e) => {
+    const { name, files } = e.target;
     setFormData((prev) => ({
       ...prev,
-      logo: e.target.files[0],
+      [name]: files[0], // Assigning file to respective state
     }));
   };
 
-  // ✅ Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -50,12 +49,13 @@ const RegisterServiceProvider = () => {
       if (formData.logo) {
         formDataToSend.append("logo", formData.logo);
       }
+      if (formData.license) {
+        formDataToSend.append("license", formData.license); // ✅ Added license to form data
+      }
 
       const response = await axios.post(
         "http://localhost:5000/api/users/register-sp",
         formDataToSend,
-        console.log(formDataToSend),
-        
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -63,7 +63,6 @@ const RegisterServiceProvider = () => {
         }
       );
 
-      // ✅ Show SweetAlert with username after successful registration
       Swal.fire({
         icon: "success",
         title: "Registration Successful!",
@@ -72,7 +71,6 @@ const RegisterServiceProvider = () => {
         confirmButtonText: "OK",
       });
 
-      // ✅ Redirect to login page after closing the alert
       navigate("/");
     } catch (error) {
       Swal.fire({
@@ -86,7 +84,6 @@ const RegisterServiceProvider = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-200">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        {/* Logo */}
         <img
           src="/Logo.jpg"
           alt="Pet Logo"
@@ -97,7 +94,6 @@ const RegisterServiceProvider = () => {
           Register as Service Provider
         </h2>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"
@@ -162,15 +158,33 @@ const RegisterServiceProvider = () => {
             required
             className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-orange-400"
           />
+
           {/* ✅ Logo Upload Field */}
-          <input
-            type="file"
-            name="logo"
-            accept="image/*"
-            onChange={handleFileChange}
-            required
-            className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-orange-400"
-          />
+          <div>
+            <label className="text-gray-600 font-semibold">Upload Logo</label>
+            <input
+              type="file"
+              name="logo"
+              accept="image/*"
+              onChange={handleFileChange}
+              required
+              className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-orange-400"
+            />
+          </div>
+
+          {/* ✅ License Upload Field */}
+          <div>
+            <label className="text-gray-600 font-semibold">Upload License</label>
+            <input
+              type="file"
+              name="license"
+              accept="image/*"
+              onChange={handleFileChange}
+              required
+              className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-orange-400"
+            />
+          </div>
+
           <button
             type="submit"
             className="w-full bg-orange-500 text-white p-3 rounded-lg hover:bg-orange-700 transition duration-300"
@@ -179,7 +193,6 @@ const RegisterServiceProvider = () => {
           </button>
         </form>
 
-        {/* Login Link */}
         <p className="mt-6 text-gray-500 text-center">
           Already have an account?{" "}
           <span

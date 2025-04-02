@@ -150,7 +150,7 @@ const ServiceProvidersPage = () => {
             </div>
 
             {/* ✅ Rating */}
-            <div className="mt-2">{renderStars(getRating())}</div>
+            {/* <div className="mt-2">{renderStars(getRating())}</div> */}
 
             {/* ✅ Button */}
             <button

@@ -75,7 +75,7 @@ const VeterinaryListPage = () => {
         <div className="flex justify-center items-center gap-3 mb-2">
           <FaUserMd className="text-4xl text-orange-500" />
           <h2 className="text-4xl font-extrabold text-gray-800">
-            Veterinary Clinics
+            Veterinary Doctors
           </h2>
         </div>
         <div className="w-24 h-1 bg-gradient-to-r from-orange-400 to-orange-600 mx-auto mt-2 rounded-full" />
@@ -153,7 +153,7 @@ const VeterinaryListPage = () => {
               </p>
 
               {/* ⭐ Rating */}
-              <div className="mt-2">{renderStars(ratings[vet._id])}</div>
+              {/* <div className="mt-2">{renderStars(ratings[vet._id])}</div> */}
 
               {/* Book Slot Button */}
               <button

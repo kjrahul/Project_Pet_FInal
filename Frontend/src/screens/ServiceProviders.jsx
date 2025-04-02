@@ -6,7 +6,7 @@ const ServiceProviders = () => {
   const [acceptedProviders, setAcceptedProviders] = useState([]);
   const [viewType, setViewType] = useState("all");
 
-  // ✅ Fetch All Providers
+  // Fetch All Providers
   const fetchAllProviders = async () => {
     try {
       const response = await axios.get(
@@ -22,14 +22,14 @@ const ServiceProviders = () => {
     }
   };
 
-  // ✅ Accept Service Provider
+  // Accept Service Provider
   const acceptProvider = async (id) => {
     try {
       await axios.put(
         `http://localhost:5000/api/admin/accept-service-provider/${id}`
       );
       alert("Service provider accepted successfully!");
-      fetchAllProviders(); // ✅ Refresh list after accepting
+      fetchAllProviders(); // Refresh list after accepting
     } catch (error) {
       console.error("Failed to accept provider:", error);
       alert("Failed to accept service provider.");
@@ -40,20 +40,17 @@ const ServiceProviders = () => {
     fetchAllProviders();
   }, []);
 
-  // ✅ Filter Providers Based on View Type
+  // Filter Providers Based on View Type
   const displayedProviders =
     viewType === "pending"
       ? pendingProviders
       : viewType === "accepted"
-        ? acceptedProviders
-        : [...pendingProviders, ...acceptedProviders];
+      ? acceptedProviders
+      : [...pendingProviders, ...acceptedProviders];
 
   return (
     <div className="p-5 bg-white rounded-xl shadow-md">
       <div className="flex justify-between items-center mb-4">
-        {/* ✅ Left: Filter Dropdown */}
-
-        {/* ✅ Right: Heading */}
         <h2 className="text-2xl font-bold">Service Providers</h2>
         <div>
           <select
@@ -68,15 +65,15 @@ const ServiceProviders = () => {
         </div>
       </div>
 
-      {/* ✅ Table for Providers */}
+      {/* Table for Providers */}
       {displayedProviders.length === 0 ? (
         <p className="text-gray-500 text-center py-10">
           No{" "}
           {viewType === "pending"
             ? "pending"
             : viewType === "accepted"
-              ? "accepted"
-              : ""}{" "}
+            ? "accepted"
+            : ""}{" "}
           service providers found.
         </p>
       ) : (
@@ -91,16 +88,26 @@ const ServiceProviders = () => {
                 <th className="border p-3">Registration ID</th>
                 <th className="border p-3">Email</th>
                 <th className="border p-3">Phone Number</th>
-                {viewType === "pending" && <th className="border p-3">Actions</th>}
+                <th className="border p-3">Address</th> {/* Moved Address Column */}
+                {viewType === "pending" && (
+                  <th className="border p-3">Actions</th>
+                )}
+                <th className="border p-3">License</th> {/* Moved License Column */}
               </tr>
             </thead>
             <tbody>
               {displayedProviders.map((provider, index) => (
-                <tr key={provider._id} className="text-center hover:bg-gray-50 transition">
+                <tr
+                  key={provider._id}
+                  className="text-center hover:bg-gray-50 transition"
+                >
                   <td className="p-3">{index + 1}</td>
                   <td className="p-3">
                     <img
-                      src={`http://localhost:5000/${provider.logo.replace(/\\/g, "/")}`}
+                      src={`http://localhost:5000/${provider.logo.replace(
+                        /\\/g,
+                        "/"
+                      )}`}
                       alt="Provider Logo"
                       className="w-16 h-16 object-cover rounded shadow-sm mx-auto"
                     />
@@ -110,6 +117,7 @@ const ServiceProviders = () => {
                   <td className="p-3">{provider.orgRegId}</td>
                   <td className="p-3">{provider.email}</td>
                   <td className="p-3">{provider.phoneNumber}</td>
+                  <td className="p-3">{provider.orgAddress}</td> {/* Display Address */}
                   {viewType === "pending" && (
                     <td className="p-3">
                       <button
@@ -120,13 +128,30 @@ const ServiceProviders = () => {
                       </button>
                     </td>
                   )}
+                  <td className="p-3">
+                    {provider.license ? (
+                      <a
+                        href={`http://localhost:5000/${provider.license.replace(
+                          /\\/g,
+                          "/"
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline"
+                      >
+                        View License
+                      </a>
+                    ) : (
+                      <span className="text-gray-400">No License</span>
+                    )}
+                  </td> {/* Display License */}
                 </tr>
               ))}
             </tbody>
-          </table></div>
+          </table>
+        </div>
       )}
     </div>
-
   );
 };
 

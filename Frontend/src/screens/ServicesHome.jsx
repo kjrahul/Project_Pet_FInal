@@ -199,14 +199,14 @@ const ServicesPage = () => {
 
       {/* Filters Section */}
       <div className="flex justify-end gap-4 mb-6">
-        <select
+        {/* <select
           onChange={(e) => setSortOrder(e.target.value)}
           value={sortOrder}
           className="p-2 border rounded-md"
         >
           <option value="asc">Price: Low to High</option>
           <option value="desc">Price: High to Low</option>
-        </select>
+        </select> */}
 
         <input
           type="text"
@@ -219,36 +219,36 @@ const ServicesPage = () => {
 
       {/* Services Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {filteredServices.map((service) => (
-          <div
-            key={service._id}
-            className="bg-white p-4 rounded-lg shadow-md"
-          >
-            <img
-              src={`http://localhost:5000/${service.image}`}
-              alt="Service Logo"
-              className="w-full h-40 object-cover mb-3"
-              onError={(e) => (e.currentTarget.style.display = "none")}
-            />
-            <h3 className="text-lg font-semibold">{service.serviceName}</h3>
-            <ul className="list-disc list-inside mt-2 text-gray-600 text-sm">
-                  {service.description.map((desc, index) => (
-                    <li key={index} className="truncate">
-                      {desc.replace(/^"|"$/g, '')}
-                    </li>
-                  ))}
-                </ul>
-            <p className="font-bold text-green-500">{service.serviceType}</p>
-            <p className="font-bold text-orange-500">₹{service.price}</p>
+      {filteredServices.map((service) => (
+  <div
+    key={service._id}
+    className="relative bg-white p-4 rounded-lg shadow-md flex flex-col"
+  >
+    <img
+      src={`http://localhost:5000/${service.image}`}
+      alt="Service Logo"
+      className="w-full h-40 object-cover mb-3"
+      onError={(e) => (e.currentTarget.style.display = "none")}
+    />
+    <h3 className="text-lg font-semibold">{service.serviceName}</h3>
+    <ul className="list-disc list-inside mt-2 text-gray-600 text-sm flex-grow">
+      {service.description.map((desc, index) => (
+        <li key={index} className="truncate">{desc.replace(/^"|"$/g, '')}</li>
+      ))}
+    </ul>
+    <p className="font-bold text-green-500">{service.serviceType}</p>
+    <p className="font-bold text-orange-500">₹{service.price}</p>
+<br /><br />
+    {/* Book Now Button Fixed at Bottom of Card */}
+    <button
+      className="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition shadow-md"
+      onClick={() => handleOpenModal(service)}
+    >
+      Book Now
+    </button>
+  </div>
+))}
 
-            <button
-              className="mt-3 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition"
-              onClick={() => handleOpenModal(service)}
-            >
-              Book Now
-            </button>
-          </div>
-        ))}
       </div>
 
       {/* Booking Modal */}

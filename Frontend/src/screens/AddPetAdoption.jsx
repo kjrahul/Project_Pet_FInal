@@ -7,6 +7,7 @@ const AddPetAdoption = () => {
   const [specifications, setSpecifications] = useState([]);
   const [spec, setSpec] = useState("");
   const [image, setImage] = useState(null);
+  const [vaccinationCertificate, setVaccinationCertificate] = useState(null); // 🆕 State for certificate
   const [lastDate, setLastDate] = useState("");
   const [status, setStatus] = useState(0);
 
@@ -27,11 +28,17 @@ const AddPetAdoption = () => {
       return;
     }
 
+    if (!vaccinationCertificate) {
+      alert("Please upload the vaccination certificate.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("petType", petType);
     formData.append("petAge", petAge);
     formData.append("specifications", JSON.stringify(specifications)); // Send as JSON string
     formData.append("image", image);
+    formData.append("vaccinationCertificate", vaccinationCertificate); // 🆕 Append vaccination certificate
     formData.append("lastDate", lastDate);
     formData.append("status", status);
 
@@ -53,6 +60,7 @@ const AddPetAdoption = () => {
       setPetAge("");
       setSpecifications([]);
       setImage(null);
+      setVaccinationCertificate(null);
       setLastDate("");
       setStatus(0);
     } catch (error) {
@@ -137,32 +145,40 @@ const AddPetAdoption = () => {
           />
         </div>
 
+        {/* Vaccination Certificate Upload */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Upload Vaccination Certificate</label>
+          <input
+            type="file"
+            accept=".pdf, .jpg, .png" // Allow PDF or image formats
+            onChange={(e) => setVaccinationCertificate(e.target.files?.[0])}
+            className="w-full border p-2 rounded"
+            required
+          />
+        </div>
+
         {/* Last Date */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Last Date for Adoption</label>
           <input
-  type="date"
-  value={lastDate}
-  onChange={(e) => setLastDate(e.target.value)}
-  className="w-full border p-2 rounded"
-  min={new Date().toISOString().split("T")[0]} // Restricts past dates
-  required
-/>
-
+            type="date"
+            value={lastDate}
+            onChange={(e) => setLastDate(e.target.value)}
+            className="w-full border p-2 rounded"
+            min={new Date().toISOString().split("T")[0]} // Restricts past dates
+            required
+          />
         </div>
 
         {/* Submit Button */}
-        {/* <div className="md:col-span-2"> */}
-          <button
-            type="submit"
-            className="md:col-span-2 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-medium transition"
-          >
-            Add Pet
-          </button>
-        {/* </div> */}
+        <button
+          type="submit"
+          className="md:col-span-2 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-medium transition"
+        >
+          Add Pet
+        </button>
       </form>
     </div>
-
   );
 };
 
